@@ -6,6 +6,11 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var conferenceRouter = require('./routes/conference');
+var eventsRouter = require('./routes/events');
+var competitionsRouter = require('./routes/competitions');
+var fundraisingRouter = require('./routes/fundraising');
+var rafflesRouter = require('./routes/raffles');
+var shopRouter = require('./routes/shop');
 
 var app = express();
 
@@ -18,5 +23,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/conference', conferenceRouter);
+app.use('/events', eventsRouter);
+app.use('/competitions', competitionsRouter);
+app.use('/fundraising', fundraisingRouter);
+app.use('/raffles', rafflesRouter);
+app.use('/shop', shopRouter);
+
 
 module.exports = app;

@@ -4,7 +4,8 @@
   "description": "-- Backend, frontend and all that. Will be updated soon. I plan to get this done in 3 days. Let's go. <29/03/2020 23:36>",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "concurrently \"cd backend && npm run start\" \"cd frontend && npm start\""
   },
   "repository": {
     "type": "git",

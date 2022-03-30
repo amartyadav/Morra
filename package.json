@@ -1,0 +1,23 @@
+{
+  "name": "justice_for_ugly_animals",
+  "version": "1.0.0",
+  "description": "-- Backend, frontend and all that. Will be updated soon. I plan to get this done in 3 days. Let's go. <29/03/2020 23:36>",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RobertGordonUniversity/coursework-amartyadav.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RobertGordonUniversity/coursework-amartyadav/issues"
+  },
+  "homepage": "https://github.com/RobertGordonUniversity/coursework-amartyadav#readme",
+  "dependencies": {
+    "concurrently": "^7.0.0"
+  }
+}

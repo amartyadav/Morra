@@ -2,7 +2,6 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-require('dotenv').config();
 
 
 var indexRouter = require('./routes/index');
@@ -13,6 +12,8 @@ var competitionsRouter = require('./routes/competitions');
 var fundraisingRouter = require('./routes/fundraising');
 var rafflesRouter = require('./routes/raffles');
 var shopRouter = require('./routes/shop');
+
+
 
 var app = express();
 app.use(logger('dev'));

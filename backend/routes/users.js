@@ -2,8 +2,14 @@ var express = require('express');
 var router = express.Router();
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+router.route('/api/users')
+  .get(userCtrl.list)
+  .post(userCtrl.create);
 
+router.route('/api/users/:user_id')
+  .get(userCtrl.read)
+  .put(userCtrl.update)
+  .delete(userCtrl.remove);
+
+router.param('user_id', userCtrl.userByID);
 module.exports = router;

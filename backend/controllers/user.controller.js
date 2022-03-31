@@ -1,6 +1,9 @@
-import User from '../models/user.model';
-import laodash from 'lodash';
-import dbErrorHandler from '../helpers/dbErrorHandler';
+//import User from '../models/user.model';
+var User = require('../models/user.model');
+//import laodash from 'lodash';
+var _ = require('lodash');
+//import dbErrorHandler from '../helpers/dbErrorHandler';
+var dbErrorHandler = require('../helpers/dbErrorHandler');
 
 const create = async (req, res) => {
     const user = new User(req.body)
@@ -68,7 +71,16 @@ const remove = async (req, res) => {
     }
 }
 
-export default {
+// export default {
+//     create,
+//     list,
+//     userByID,
+//     read,
+//     update,
+//     remove
+// }
+
+module.exports = {
     create,
     list,
     userByID,

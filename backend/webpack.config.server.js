@@ -2,11 +2,12 @@ const path = require('path');
 const nodeExternals = require('webpack-node-externals');
 
 const CURRENT_WORKING_DIR = process.cwd();
+console.log(CURRENT_WORKING_DIR);
 
 const config = {
     name: 'server',
     target: 'node', // in order to ignore built-in modules like path, fs, etc.
-    entry: [path.join(CURRENT_WORKING_DIR, './bin/www')],
+    entry: [path.join(CURRENT_WORKING_DIR, './server.js')],
     output: {
         filename: 'server.generated.js',
         path: path.join(CURRENT_WORKING_DIR, './dist'),

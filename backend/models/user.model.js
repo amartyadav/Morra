@@ -1,7 +1,7 @@
-// import mongoose from "mongoose";
-const mongoose = require("mongoose");
-// import crypto from "crypto";
-const crypto = require("crypto");
+import mongoose from "mongoose";
+//const mongoose = require("mongoose");
+import crypto from "crypto";
+//const crypto = require("crypto");
 
 const userSchema = new mongoose.Schema({
     email: {
@@ -71,4 +71,5 @@ userSchema.path("hashed_password").validate(function (v) {
 
 const userModel = mongoose.model("User", userSchema);
 userModel.createIndexes();
-module.exports = userModel;
+export default userModel;
+//module.exports = userModel;

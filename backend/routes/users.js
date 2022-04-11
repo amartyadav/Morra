@@ -1,6 +1,10 @@
-var express = require('express');
-var router = express.Router();
-var userCtrl = require('./../controllers/user.controller');
+//var express = require('express');
+
+//var userCtrl = require('./../controllers/user.controller');
+
+import express from 'express';
+import userCtrl from '../controllers/user.controller';
+const router = express.Router();
 
 /* GET users listing. */
 router.route('/api/users')
@@ -13,4 +17,5 @@ router.route('/api/users/:user_id')
   .delete(userCtrl.remove);
 
 router.param('user_id', userCtrl.userByID);
-module.exports = router;
+export default router;
+//module.exports = router;

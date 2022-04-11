@@ -9,26 +9,6 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./bin/www":
-/*!*****************!*\
-  !*** ./bin/www ***!
-  \*****************/
-/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
-
-eval("//#!/usr/bin/env node\n(__webpack_require__(/*! dotenv */ \"dotenv\").config)()\n\n/**\n * Mongoose dependency\n */\n\n //import mongoose from 'mongoose';\n var mongoose = __webpack_require__(/*! mongoose */ \"mongoose\");\n mongoose.Promise = global.Promise;\n mongoose.connect(process.env.MONGODB_URI, {dbName: 'users'});\n mongoose.connection.on('connected', () => {\n   console.info('MongoDB connected')\n })\n mongoose.connection.on('error', (err) => {\n   console.error(`MongoDB connection error: ${err}`);\n   process.exit(-1);\n });\n\n/**\n * Module dependencies.\n */\n\nvar app = __webpack_require__(/*! ../app */ \"./app.js\");\nvar debug = __webpack_require__(/*! debug */ \"debug\")('backend:server');\nvar http = __webpack_require__(/*! http */ \"http\");\n\n/**\n * Get port from environment and store in Express.\n */\n\nvar port = normalizePort(process.env.PORT || '3001');\napp.set('port', port);\n\n/**\n * Create HTTP server.\n */\n\nvar server = http.createServer(app);\n\n/**\n * Listen on provided port, on all network interfaces.\n */\n\nserver.listen(port);\nserver.on('error', onError);\nserver.on('listening', onListening);\n\n/**\n * Normalize a port into a number, string, or false.\n */\n\nfunction normalizePort(val) {\n  var port = parseInt(val, 10);\n\n  if (isNaN(port)) {\n    // named pipe\n    return val;\n  }\n\n  if (port >= 0) {\n    // port number\n    return port;\n  }\n\n  return false;\n}\n\n/**\n * Event listener for HTTP server \"error\" event.\n */\n\nfunction onError(error) {\n  if (error.syscall !== 'listen') {\n    throw error;\n  }\n\n  var bind = typeof port === 'string'\n    ? 'Pipe ' + port\n    : 'Port ' + port;\n\n  // handle specific listen errors with friendly messages\n  switch (error.code) {\n    case 'EACCES':\n      console.error(bind + ' requires elevated privileges');\n      process.exit(1);\n      break;\n    case 'EADDRINUSE':\n      console.error(bind + ' is already in use');\n      process.exit(1);\n      break;\n    default:\n      throw error;\n  }\n}\n\n/**\n * Event listener for HTTP server \"listening\" event.\n */\n\nfunction onListening() {\n  var addr = server.address();\n  var bind = typeof addr === 'string'\n    ? 'pipe ' + addr\n    : 'port ' + addr.port;\n  debug('Listening on ' + bind);\n}\n\n\n//# sourceURL=webpack://backend/./bin/www?");
-
-/***/ }),
-
-/***/ "./app.js":
-/*!****************!*\
-  !*** ./app.js ***!
-  \****************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-eval("var express = __webpack_require__(/*! express */ \"express\");\n\nvar path = __webpack_require__(/*! path */ \"path\");\n\nvar cookieParser = __webpack_require__(/*! cookie-parser */ \"cookie-parser\");\n\nvar logger = __webpack_require__(/*! morgan */ \"morgan\");\n\nvar indexRouter = __webpack_require__(/*! ./routes/index */ \"./routes/index.js\");\n\nvar usersRouter = __webpack_require__(/*! ./routes/users */ \"./routes/users.js\");\n\nvar authRouter = __webpack_require__(/*! ./routes/auth */ \"./routes/auth.js\");\n\nvar conferenceRouter = __webpack_require__(/*! ./routes/conference */ \"./routes/conference.js\");\n\nvar eventsRouter = __webpack_require__(/*! ./routes/events */ \"./routes/events.js\");\n\nvar competitionsRouter = __webpack_require__(/*! ./routes/competitions */ \"./routes/competitions.js\");\n\nvar fundraisingRouter = __webpack_require__(/*! ./routes/fundraising */ \"./routes/fundraising.js\");\n\nvar rafflesRouter = __webpack_require__(/*! ./routes/raffles */ \"./routes/raffles.js\");\n\nvar shopRouter = __webpack_require__(/*! ./routes/shop */ \"./routes/shop.js\");\n\nvar app = express();\napp.use(logger('dev'));\napp.use(express.json());\napp.use(express.urlencoded({\n  extended: false\n}));\napp.use(cookieParser());\napp.use(express.static(path.join(__dirname, 'public')));\napp.use('/', indexRouter);\napp.use('/', usersRouter);\napp.use('/', authRouter);\napp.use('/conference', conferenceRouter);\napp.use('/events', eventsRouter);\napp.use('/competitions', competitionsRouter);\napp.use('/fundraising', fundraisingRouter);\napp.use('/raffles', rafflesRouter);\napp.use('/shop', shopRouter);\nmodule.exports = app;\n\n//# sourceURL=webpack://backend/./app.js?");
-
-/***/ }),
-
 /***/ "./controllers/auth.controller.js":
 /*!****************************************!*\
   !*** ./controllers/auth.controller.js ***!
@@ -43,9 +23,21 @@ eval("\n\n//# sourceURL=webpack://backend/./controllers/auth.controller.js?");
 /*!****************************************!*\
   !*** ./controllers/user.controller.js ***!
   \****************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("//import User from '../models/user.model';\nvar User = __webpack_require__(/*! ../models/user.model */ \"./models/user.model.js\"); //import laodash from 'lodash';\n\n\nvar _ = __webpack_require__(/*! lodash */ \"../node_modules/lodash/lodash.js\"); //import dbErrorHandler from '../helpers/dbErrorHandler';\n\n\nvar dbErrorHandler = __webpack_require__(/*! ../helpers/dbErrorHandler */ \"./helpers/dbErrorHandler.js\");\n\nconst create = async (req, res) => {\n  const user = new User(req.body);\n\n  try {\n    await user.save();\n    return res.status(200).json({\n      message: 'Successfully signed up'\n    });\n  } catch (err) {\n    return res.status(400).json({\n      error: dbErrorHandler.getErrorMessage(err)\n    });\n  }\n};\n\nconst list = async (req, res) => {\n  try {\n    const users = await User.find().select('name email updated created');\n    res.json(users);\n  } catch (err) {\n    return res.status(400).json({\n      error: dbErrorHandler.getErrorMessage(err)\n    });\n  }\n};\n\nconst userByID = async (req, res, next, id) => {\n  try {\n    const user = await User.findbyId(id);\n    if (!user) return res.status(400).json({\n      error: 'User not found'\n    });\n    req.profile = user;\n    next();\n  } catch (err) {\n    return res.status(400).json({\n      error: 'Could not retrieve user'\n    });\n  }\n};\n\nconst read = async (req, res) => {\n  req.profile.hashed_password = undefined; // remove password from response\n\n  req.profile.salt = undefined; // remove salt from response\n\n  return res.json(req.profile); // return user profile\n};\n\nconst update = async (req, res) => {\n  try {\n    let user = req.profile;\n    user = extend(user, req.body); // extend user object with new data\n\n    user.updated = Date.now();\n    await user.save();\n    user.hashed_password = undefined; // remove password from response\n\n    user.salt = undefined; // remove salt from response\n\n    res.json(user);\n  } catch (err) {\n    return res.status(400).json({\n      error: dbErrorHandler.getErrorMessage(err)\n    });\n  }\n};\n\nconst remove = async (req, res) => {\n  try {\n    let user = req.profile;\n    let deletedUser = await user.remove();\n    deletedUser.hashed_password = undefined; // remove password from response\n\n    deletedUser.salt = undefined; // remove salt from response\n\n    res.json(deletedUser);\n  } catch (err) {\n    return res.status(400).json({\n      error: dbErrorHandler.getErrorMessage(err)\n    });\n  }\n}; // export default {\n//     create,\n//     list,\n//     userByID,\n//     read,\n//     update,\n//     remove\n// }\n\n\nmodule.exports = {\n  create,\n  list,\n  userByID,\n  read,\n  update,\n  remove\n};\n\n//# sourceURL=webpack://backend/./controllers/user.controller.js?");
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var _models_user_model__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../models/user.model */ \"./models/user.model.js\");\n/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ \"../node_modules/lodash/lodash.js\");\n/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var _helpers_dbErrorHandler__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../helpers/dbErrorHandler */ \"./helpers/dbErrorHandler.js\");\n/* harmony import */ var _helpers_dbErrorHandler__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_helpers_dbErrorHandler__WEBPACK_IMPORTED_MODULE_2__);\n //var User = require('../models/user.model');\n\n //var _ = require('lodash');\n\n //var dbErrorHandler = require('../helpers/dbErrorHandler');\n\nconst create = async (req, res) => {\n  const user = new _models_user_model__WEBPACK_IMPORTED_MODULE_0__[\"default\"](req.body);\n\n  try {\n    await user.save();\n    return res.status(200).json({\n      message: 'Successfully signed up'\n    });\n  } catch (err) {\n    return res.status(400).json({\n      error: _helpers_dbErrorHandler__WEBPACK_IMPORTED_MODULE_2___default().getErrorMessage(err)\n    });\n  }\n};\n\nconst list = async (req, res) => {\n  try {\n    const users = await _models_user_model__WEBPACK_IMPORTED_MODULE_0__[\"default\"].find().select('name email updated created');\n    res.json(users);\n  } catch (err) {\n    return res.status(400).json({\n      error: _helpers_dbErrorHandler__WEBPACK_IMPORTED_MODULE_2___default().getErrorMessage(err)\n    });\n  }\n};\n\nconst userByID = async (req, res, next, id) => {\n  try {\n    const user = await _models_user_model__WEBPACK_IMPORTED_MODULE_0__[\"default\"].findbyId(id);\n    if (!user) return res.status(400).json({\n      error: 'User not found'\n    });\n    req.profile = user;\n    next();\n  } catch (err) {\n    return res.status(400).json({\n      error: 'Could not retrieve user'\n    });\n  }\n};\n\nconst read = async (req, res) => {\n  req.profile.hashed_password = undefined; // remove password from response\n\n  req.profile.salt = undefined; // remove salt from response\n\n  return res.json(req.profile); // return user profile\n};\n\nconst update = async (req, res) => {\n  try {\n    let user = req.profile;\n    user = extend(user, req.body); // extend user object with new data\n\n    user.updated = Date.now();\n    await user.save();\n    user.hashed_password = undefined; // remove password from response\n\n    user.salt = undefined; // remove salt from response\n\n    res.json(user);\n  } catch (err) {\n    return res.status(400).json({\n      error: _helpers_dbErrorHandler__WEBPACK_IMPORTED_MODULE_2___default().getErrorMessage(err)\n    });\n  }\n};\n\nconst remove = async (req, res) => {\n  try {\n    let user = req.profile;\n    let deletedUser = await user.remove();\n    deletedUser.hashed_password = undefined; // remove password from response\n\n    deletedUser.salt = undefined; // remove salt from response\n\n    res.json(deletedUser);\n  } catch (err) {\n    return res.status(400).json({\n      error: _helpers_dbErrorHandler__WEBPACK_IMPORTED_MODULE_2___default().getErrorMessage(err)\n    });\n  }\n};\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({\n  create,\n  list,\n  userByID,\n  read,\n  update,\n  remove\n}); // module.exports = {\n//     create,\n//     list,\n//     userByID,\n//     read,\n//     update,\n//     remove\n// }\n\n//# sourceURL=webpack://backend/./controllers/user.controller.js?");
+
+/***/ }),
+
+/***/ "./express.js":
+/*!********************!*\
+  !*** ./express.js ***!
+  \********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var express__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! express */ \"express\");\n/* harmony import */ var express__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(express__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! path */ \"path\");\n/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(path__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var body_parser__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! body-parser */ \"body-parser\");\n/* harmony import */ var body_parser__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(body_parser__WEBPACK_IMPORTED_MODULE_2__);\n/* harmony import */ var cookie_parser__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! cookie-parser */ \"cookie-parser\");\n/* harmony import */ var cookie_parser__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(cookie_parser__WEBPACK_IMPORTED_MODULE_3__);\n/* harmony import */ var compression__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! compression */ \"compression\");\n/* harmony import */ var compression__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(compression__WEBPACK_IMPORTED_MODULE_4__);\n/* harmony import */ var cors__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! cors */ \"cors\");\n/* harmony import */ var cors__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(cors__WEBPACK_IMPORTED_MODULE_5__);\n/* harmony import */ var helmet__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! helmet */ \"helmet\");\n/* harmony import */ var helmet__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(helmet__WEBPACK_IMPORTED_MODULE_6__);\n/* harmony import */ var _routes_index__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./routes/index */ \"./routes/index.js\");\n/* harmony import */ var _routes_index__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_routes_index__WEBPACK_IMPORTED_MODULE_7__);\n/* harmony import */ var _routes_users__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./routes/users */ \"./routes/users.js\");\n/* harmony import */ var _routes_auth__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./routes/auth */ \"./routes/auth.js\");\n\n\n\n\n\n\n\nconst app = express__WEBPACK_IMPORTED_MODULE_0___default()();\n\nvar logger = __webpack_require__(/*! morgan */ \"morgan\"); // importing routes\n\n\n\n\n // var indexRouter = require('./routes/index');\n// var usersRouter = require('./routes/users');\n// var authRouter = require('./routes/auth');\n// var conferenceRouter = require('./routes/conference');\n// var eventsRouter = require('./routes/events');\n// var competitionsRouter = require('./routes/competitions');\n// var fundraisingRouter = require('./routes/fundraising');\n// var rafflesRouter = require('./routes/raffles');\n// var shopRouter = require('./routes/shop');\n// parse body params and attache them to req.body app.use(bodyParser.json()) app.use(bodyParser.urlencoded({ extended: true })) app.use(cookieParser())\n\napp.use(compression__WEBPACK_IMPORTED_MODULE_4___default()()); // secure apps by setting various HTTP headers\n\napp.use(helmet__WEBPACK_IMPORTED_MODULE_6___default()()); // enable CORS - Cross Origin Resource Sharing app.use(cors())\n\napp.use(cors__WEBPACK_IMPORTED_MODULE_5___default()());\napp.use(logger('dev'));\napp.use(express__WEBPACK_IMPORTED_MODULE_0___default().json());\napp.use(express__WEBPACK_IMPORTED_MODULE_0___default().urlencoded({\n  extended: false\n}));\napp.use(cookie_parser__WEBPACK_IMPORTED_MODULE_3___default()());\napp.use(express__WEBPACK_IMPORTED_MODULE_0___default()[\"static\"](path__WEBPACK_IMPORTED_MODULE_1___default().join(__dirname, 'public')));\napp.use('/', (_routes_index__WEBPACK_IMPORTED_MODULE_7___default()));\napp.use('/', _routes_users__WEBPACK_IMPORTED_MODULE_8__[\"default\"]);\napp.use('/', _routes_auth__WEBPACK_IMPORTED_MODULE_9__[\"default\"]);\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (app);\n\n//# sourceURL=webpack://backend/./express.js?");
 
 /***/ }),
 
@@ -64,9 +56,10 @@ eval("\n\nconst getUniqueErrorMessage = err => {\n  let output;\n\n  try {\n    
 /*!******************************!*\
   !*** ./models/user.model.js ***!
   \******************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("// import mongoose from \"mongoose\";\nconst mongoose = __webpack_require__(/*! mongoose */ \"mongoose\"); // import crypto from \"crypto\";\n\n\nconst crypto = __webpack_require__(/*! crypto */ \"crypto\");\n\nconst userSchema = new mongoose.Schema({\n  email: {\n    type: String,\n    unique: true,\n    required: \"Email is required\",\n    trim: true,\n    index: true,\n    match: [/.+\\@.+\\..+/, 'Please fill a valid email address']\n  },\n  name: {\n    type: String,\n    required: \"Name is required\",\n    trim: true\n  },\n  hashed_password: {\n    type: String,\n    required: \"Password is required\"\n  },\n  salt: String,\n  updated: {\n    type: Date,\n    default: Date.now\n  }\n});\nuserSchema.virtual(\"password\").set(function (password) {\n  this._password = password;\n  this.salt = this.makeSalt();\n  this.hashed_password = this.encryptPassword(password);\n}).get(function () {\n  return this._password;\n});\nuserSchema.methods = {\n  authenticate: function (plainText) {\n    return this.encryptPassword(plainText) === this.hashed_password;\n  },\n  encryptPassword: function (password) {\n    if (!password) return \"\";\n\n    try {\n      return crypto.createHmac(\"sha256\", this.salt).update(password).digest(\"hex\");\n    } catch (err) {\n      return \"\";\n    }\n  },\n  makeSalt: function () {\n    return Math.round(new Date().valueOf() * Math.random()) + '';\n  }\n};\nuserSchema.path(\"hashed_password\").validate(function (v) {\n  if (this._password && this._password.length < 6) {\n    this.invalidate(\"password\", \"Password must be at least 6 characters.\");\n  }\n\n  if (this.isNew && !this._password) {\n    this.invalidate(\"password\", \"Password is required.\");\n  }\n}, null);\nconst userModel = mongoose.model(\"User\", userSchema);\nuserModel.createIndexes();\nmodule.exports = userModel;\n\n//# sourceURL=webpack://backend/./models/user.model.js?");
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! mongoose */ \"mongoose\");\n/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(mongoose__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var crypto__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! crypto */ \"crypto\");\n/* harmony import */ var crypto__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(crypto__WEBPACK_IMPORTED_MODULE_1__);\n //const mongoose = require(\"mongoose\");\n\n //const crypto = require(\"crypto\");\n\nconst userSchema = new (mongoose__WEBPACK_IMPORTED_MODULE_0___default().Schema)({\n  email: {\n    type: String,\n    unique: true,\n    required: \"Email is required\",\n    trim: true,\n    index: true,\n    match: [/.+\\@.+\\..+/, 'Please fill a valid email address']\n  },\n  name: {\n    type: String,\n    required: \"Name is required\",\n    trim: true\n  },\n  hashed_password: {\n    type: String,\n    required: \"Password is required\"\n  },\n  salt: String,\n  updated: {\n    type: Date,\n    default: Date.now\n  }\n});\nuserSchema.virtual(\"password\").set(function (password) {\n  this._password = password;\n  this.salt = this.makeSalt();\n  this.hashed_password = this.encryptPassword(password);\n}).get(function () {\n  return this._password;\n});\nuserSchema.methods = {\n  authenticate: function (plainText) {\n    return this.encryptPassword(plainText) === this.hashed_password;\n  },\n  encryptPassword: function (password) {\n    if (!password) return \"\";\n\n    try {\n      return crypto__WEBPACK_IMPORTED_MODULE_1___default().createHmac(\"sha256\", this.salt).update(password).digest(\"hex\");\n    } catch (err) {\n      return \"\";\n    }\n  },\n  makeSalt: function () {\n    return Math.round(new Date().valueOf() * Math.random()) + '';\n  }\n};\nuserSchema.path(\"hashed_password\").validate(function (v) {\n  if (this._password && this._password.length < 6) {\n    this.invalidate(\"password\", \"Password must be at least 6 characters.\");\n  }\n\n  if (this.isNew && !this._password) {\n    this.invalidate(\"password\", \"Password is required.\");\n  }\n}, null);\nconst userModel = mongoose__WEBPACK_IMPORTED_MODULE_0___default().model(\"User\", userSchema);\nuserModel.createIndexes();\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (userModel); //module.exports = userModel;\n\n//# sourceURL=webpack://backend/./models/user.model.js?");
 
 /***/ }),
 
@@ -77,47 +70,7 @@ eval("// import mongoose from \"mongoose\";\nconst mongoose = __webpack_require_
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var express__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! express */ \"express\");\n/* harmony import */ var express__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(express__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _controllers_auth_controller__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../controllers/auth.controller */ \"./controllers/auth.controller.js\");\n/* harmony import */ var _controllers_auth_controller__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_controllers_auth_controller__WEBPACK_IMPORTED_MODULE_1__);\n\n\nconst router = express__WEBPACK_IMPORTED_MODULE_0___default().Router();\nrouter.route('/auth/signin').post((_controllers_auth_controller__WEBPACK_IMPORTED_MODULE_1___default().signin));\nrouter.route('/auth/signout').get((_controllers_auth_controller__WEBPACK_IMPORTED_MODULE_1___default().signout));\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (router);\n\n//# sourceURL=webpack://backend/./routes/auth.js?");
-
-/***/ }),
-
-/***/ "./routes/competitions.js":
-/*!********************************!*\
-  !*** ./routes/competitions.js ***!
-  \********************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-eval("var express = __webpack_require__(/*! express */ \"express\");\n\nvar router = express.Router();\n/* GET users listing. */\n\nrouter.get('/', function (req, res, next) {\n  res.send('competitions main route');\n});\nmodule.exports = router;\n\n//# sourceURL=webpack://backend/./routes/competitions.js?");
-
-/***/ }),
-
-/***/ "./routes/conference.js":
-/*!******************************!*\
-  !*** ./routes/conference.js ***!
-  \******************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-eval("var express = __webpack_require__(/*! express */ \"express\");\n\nvar router = express.Router();\n/* GET conference listing. */\n\nrouter.get('/', function (req, res, next) {\n  res.send('conference main route');\n});\nmodule.exports = router;\n\n//# sourceURL=webpack://backend/./routes/conference.js?");
-
-/***/ }),
-
-/***/ "./routes/events.js":
-/*!**************************!*\
-  !*** ./routes/events.js ***!
-  \**************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-eval("var express = __webpack_require__(/*! express */ \"express\");\n\nvar router = express.Router();\n/* GET events listing. */\n\nrouter.get('/', function (req, res, next) {\n  res.send('events main route');\n});\nmodule.exports = router;\n\n//# sourceURL=webpack://backend/./routes/events.js?");
-
-/***/ }),
-
-/***/ "./routes/fundraising.js":
-/*!*******************************!*\
-  !*** ./routes/fundraising.js ***!
-  \*******************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-eval("var express = __webpack_require__(/*! express */ \"express\");\n\nvar router = express.Router();\n/* GET users listing. */\n\nrouter.get('/', function (req, res, next) {\n  res.send('fundraising main route');\n});\nmodule.exports = router;\n\n//# sourceURL=webpack://backend/./routes/fundraising.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var express__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! express */ \"express\");\n/* harmony import */ var express__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(express__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _controllers_auth_controller__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../controllers/auth.controller */ \"./controllers/auth.controller.js\");\n/* harmony import */ var _controllers_auth_controller__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_controllers_auth_controller__WEBPACK_IMPORTED_MODULE_1__);\n\n\nconst router = express__WEBPACK_IMPORTED_MODULE_0___default().Router(); //router.route('/auth/signin').post(authCtrl.signin);\n//router.route('/auth/signout').get(authCtrl.signout);\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (router);\n\n//# sourceURL=webpack://backend/./routes/auth.js?");
 
 /***/ }),
 
@@ -131,33 +84,25 @@ eval("var express = __webpack_require__(/*! express */ \"express\");\n\nvar rout
 
 /***/ }),
 
-/***/ "./routes/raffles.js":
-/*!***************************!*\
-  !*** ./routes/raffles.js ***!
-  \***************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-eval("var express = __webpack_require__(/*! express */ \"express\");\n\nvar router = express.Router();\n/* GET users listing. */\n\nrouter.get('/', function (req, res, next) {\n  res.send('raffles main route');\n});\nmodule.exports = router;\n\n//# sourceURL=webpack://backend/./routes/raffles.js?");
-
-/***/ }),
-
-/***/ "./routes/shop.js":
-/*!************************!*\
-  !*** ./routes/shop.js ***!
-  \************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-eval("var express = __webpack_require__(/*! express */ \"express\");\n\nvar router = express.Router();\n/* GET users listing. */\n\nrouter.get('/', function (req, res, next) {\n  res.send('shop main route');\n});\nmodule.exports = router;\n\n//# sourceURL=webpack://backend/./routes/shop.js?");
-
-/***/ }),
-
 /***/ "./routes/users.js":
 /*!*************************!*\
   !*** ./routes/users.js ***!
   \*************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("var express = __webpack_require__(/*! express */ \"express\");\n\nvar router = express.Router();\n\nvar userCtrl = __webpack_require__(/*! ./../controllers/user.controller */ \"./controllers/user.controller.js\");\n/* GET users listing. */\n\n\nrouter.route('/api/users').get(userCtrl.list).post(userCtrl.create);\nrouter.route('/api/users/:user_id').get(userCtrl.read).put(userCtrl.update).delete(userCtrl.remove);\nrouter.param('user_id', userCtrl.userByID);\nmodule.exports = router;\n\n//# sourceURL=webpack://backend/./routes/users.js?");
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var express__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! express */ \"express\");\n/* harmony import */ var express__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(express__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _controllers_user_controller__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../controllers/user.controller */ \"./controllers/user.controller.js\");\n//var express = require('express');\n//var userCtrl = require('./../controllers/user.controller');\n\n\nconst router = express__WEBPACK_IMPORTED_MODULE_0___default().Router();\n/* GET users listing. */\n\nrouter.route('/api/users').get(_controllers_user_controller__WEBPACK_IMPORTED_MODULE_1__[\"default\"].list).post(_controllers_user_controller__WEBPACK_IMPORTED_MODULE_1__[\"default\"].create);\nrouter.route('/api/users/:user_id').get(_controllers_user_controller__WEBPACK_IMPORTED_MODULE_1__[\"default\"].read).put(_controllers_user_controller__WEBPACK_IMPORTED_MODULE_1__[\"default\"].update).delete(_controllers_user_controller__WEBPACK_IMPORTED_MODULE_1__[\"default\"].remove);\nrouter.param('user_id', _controllers_user_controller__WEBPACK_IMPORTED_MODULE_1__[\"default\"].userByID);\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (router); //module.exports = router;\n\n//# sourceURL=webpack://backend/./routes/users.js?");
+
+/***/ }),
+
+/***/ "./server.js":
+/*!*******************!*\
+  !*** ./server.js ***!
+  \*******************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _express__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./express */ \"./express.js\");\n/* harmony import */ var http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! http */ \"http\");\n/* harmony import */ var http__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(http__WEBPACK_IMPORTED_MODULE_1__);\n(__webpack_require__(/*! dotenv */ \"dotenv\").config)();\n\n //var http = require('http');\n\n\n\nvar debug = __webpack_require__(/*! debug */ \"debug\")('backend:server');\n/**\n * Mongoose dependency\n */\n// import mongoose from 'mongoose';\n\n\nvar mongoose = __webpack_require__(/*! mongoose */ \"mongoose\");\n\nmongoose.Promise = global.Promise;\nmongoose.connect(process.env.MONGODB_URI, {\n  dbName: 'users'\n});\nmongoose.connection.on('connected', () => {\n  console.info('MongoDB connected');\n});\nmongoose.connection.on('error', err => {\n  console.error(`MongoDB connection error: ${err}`);\n  process.exit(-1);\n});\n/**\n * Get port from environment and store in Express.\n */\n\nvar port = normalizePort(process.env.PORT || '3001');\n_express__WEBPACK_IMPORTED_MODULE_0__[\"default\"].set('port', port);\n/**\n * Create HTTP server.\n */\n\nvar server = http__WEBPACK_IMPORTED_MODULE_1___default().createServer(_express__WEBPACK_IMPORTED_MODULE_0__[\"default\"]);\n/**\n * Listen on provided port, on all network interfaces.\n */\n\nserver.listen(port);\nserver.on('error', onError);\nserver.on('listening', onListening);\n/**\n * Normalize a port into a number, string, or false.\n */\n\nfunction normalizePort(val) {\n  var port = parseInt(val, 10);\n\n  if (isNaN(port)) {\n    // named pipe\n    return val;\n  }\n\n  if (port >= 0) {\n    // port number\n    return port;\n  }\n\n  return false;\n}\n/**\n * Event listener for HTTP server \"error\" event.\n */\n\n\nfunction onError(error) {\n  if (error.syscall !== 'listen') {\n    throw error;\n  }\n\n  var bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port; // handle specific listen errors with friendly messages\n\n  switch (error.code) {\n    case 'EACCES':\n      console.error(bind + ' requires elevated privileges');\n      process.exit(1);\n      break;\n\n    case 'EADDRINUSE':\n      console.error(bind + ' is already in use');\n      process.exit(1);\n      break;\n\n    default:\n      throw error;\n  }\n}\n/**\n * Event listener for HTTP server \"listening\" event.\n */\n\n\nfunction onListening() {\n  var addr = server.address();\n  var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;\n  debug('Listening on ' + bind);\n}\n\n//# sourceURL=webpack://backend/./server.js?");
 
 /***/ }),
 
@@ -171,6 +116,28 @@ eval("/* module decorator */ module = __webpack_require__.nmd(module);\nvar __WE
 
 /***/ }),
 
+/***/ "body-parser":
+/*!******************************!*\
+  !*** external "body-parser" ***!
+  \******************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("body-parser");
+
+/***/ }),
+
+/***/ "compression":
+/*!******************************!*\
+  !*** external "compression" ***!
+  \******************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("compression");
+
+/***/ }),
+
 /***/ "cookie-parser":
 /*!********************************!*\
   !*** external "cookie-parser" ***!
@@ -179,6 +146,17 @@ eval("/* module decorator */ module = __webpack_require__.nmd(module);\nvar __WE
 
 "use strict";
 module.exports = require("cookie-parser");
+
+/***/ }),
+
+/***/ "cors":
+/*!***********************!*\
+  !*** external "cors" ***!
+  \***********************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("cors");
 
 /***/ }),
 
@@ -212,6 +190,17 @@ module.exports = require("dotenv");
 
 "use strict";
 module.exports = require("express");
+
+/***/ }),
+
+/***/ "helmet":
+/*!*************************!*\
+  !*** external "helmet" ***!
+  \*************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("helmet");
 
 /***/ }),
 
@@ -354,7 +343,7 @@ module.exports = require("path");
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module can't be inlined because the eval devtool is used.
-/******/ 	var __webpack_exports__ = __webpack_require__("./bin/www");
+/******/ 	var __webpack_exports__ = __webpack_require__("./server.js");
 /******/ 	module.exports = __webpack_exports__;
 /******/ 	
 /******/ })()

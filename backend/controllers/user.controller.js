@@ -1,9 +1,9 @@
 import User from '../models/user.model';
-//var User = require('../models/user.model');
+// var User = require('../models/user.model');
 import laodash from 'lodash';
-//var _ = require('lodash');
+// var _ = require('lodash');
 import dbErrorHandler from '../helpers/dbErrorHandler';
-//var dbErrorHandler = require('../helpers/dbErrorHandler');
+// var dbErrorHandler = require('../helpers/dbErrorHandler');
 
 const create = async (req, res) => {
     const user = new User(req.body)
@@ -26,16 +26,13 @@ const list = async (req, res) => {
 
 const userByID = async (req, res, next, id) => {
     try {
-        const user = await User.findbyId(id);
-        if (! user) 
+        const user = await User.findById(id);
+        if (!user)
             return res.status(400).json({error: 'User not found'})
-
-        
-
         req.profile = user
-        next()
+        next()  
     } catch (err) {
-        return res.status(400).json({error: 'Could not retrieve user'})
+        return res.status(400).json({error: "error in finding user"})
     }
 }
 

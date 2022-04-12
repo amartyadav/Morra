@@ -1,6 +1,6 @@
 import User from '../models/user.model';
 // var User = require('../models/user.model');
-import laodash from 'lodash';
+import lodash from 'lodash';
 // var _ = require('lodash');
 import dbErrorHandler from '../helpers/dbErrorHandler';
 // var dbErrorHandler = require('../helpers/dbErrorHandler');

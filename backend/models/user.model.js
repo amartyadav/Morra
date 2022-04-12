@@ -30,7 +30,13 @@ const userSchema = new mongoose.Schema({
     updated: {
         type: Date,
         default: Date.now
-    }
+    },
+
+    userType: {
+        type: String,
+        enum: ["admin", "user"],
+        default: "user"
+    },
 }, {collection: "users"});
 
 userSchema.virtual("password").set(function (password) {

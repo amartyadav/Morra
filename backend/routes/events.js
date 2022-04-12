@@ -1,9 +1,12 @@
-var express = require('express');
-var router = express.Router();
+import express from 'express';
+import eventCtrl from '../controllers/events.controller';
+import authCtrl from '../controllers/auth.controller';
+const router = express.Router();
 
-/* GET events listing. */
-router.get('/', function(req, res, next) {
-  res.send('events main route');
-});
+router.route('/api/events')
+  // .get(eventCtrl.list)
+  // .post(authCtrl.requireSignin, authCtrl.userType, eventCtrl.create)
+  // .put(authCtrl.requireSignin, authCtrl.userType, eventCtrl.update)
+  // .delete(authCtrl.requireSignin, authCtrl.userType, eventCtrl.remove);
 
-module.exports = router;
+export default router;

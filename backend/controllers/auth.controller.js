@@ -4,6 +4,7 @@ import expressJwt from 'express-jwt';
 require('dotenv').config();
 
 const signin = async (req, res) => {
+    console.log(req.user)
     try{
         let user = await User.findOne({email: req.body.email})
         if(!user){
@@ -61,9 +62,21 @@ const hasAuthorization = (req, res, next) => {
     next()
 }
 
+// const userType = (req, res, next) => {
+//     console.log(req.user)
+//     if(req.profile.type != 'admin'){
+//         return res.status(403).json({
+//             message: 'User is not authorized'
+//         })
+//     }
+//     next()
+// }
+
+
 export default {
     signin,
     signout,
     requireSignin,
-    hasAuthorization
+    hasAuthorization,
+    userType
 }

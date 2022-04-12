@@ -31,7 +31,7 @@ const userSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     }
-})
+}, {collection: "users"});
 
 userSchema.virtual("password").set(function (password) {
     this._password = password;

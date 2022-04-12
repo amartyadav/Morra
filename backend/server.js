@@ -11,7 +11,7 @@ var debug = require('debug')('backend:server');
 // import mongoose from 'mongoose';
 var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
-mongoose.connect(process.env.MONGODB_URI, {dbName: 'users'});
+mongoose.connect(process.env.MONGODB_URI, {dbName: 'justice_for_ugly_animals'});
 mongoose.connection.on('connected', () => {
     console.info('MongoDB connected')
 })

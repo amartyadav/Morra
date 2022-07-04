@@ -15,7 +15,7 @@ var logger = require('morgan');
 import indexRouter from './routes/index'
 import usersRouter from './routes/users'
 import authRouter from './routes/auth'
-import eventsRouter from './routes/events'
+import gameRouter from './routes/game'
 
 // parse body params and attache them to req.body app.use(bodyParser.json()) app.use(bodyParser.urlencoded({ extended: true })) app.use(cookieParser())
 app.use(compress())
@@ -33,7 +33,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/', usersRouter);
 app.use('/', authRouter);
-app.use('/', eventsRouter);
+app.use('/', gameRouter);
+
 app.use((err, req, res, next) => {
     if(err.name === 'UnauthorizedError'){
         res.status(401).json({"error" : err.name + ": " + err.message})

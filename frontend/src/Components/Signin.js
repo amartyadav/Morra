@@ -2,8 +2,10 @@ import React from 'react'
 import TextField from '@mui/material/TextField'
 import {Grid} from '@mui/material'
 import Button from '@mui/material/Button'
+import {useNavigate} from 'react-router-dom'
 
 export default function Signin() {
+    const navigate = useNavigate()
     const [email, setEmail] = React.useState('')
     const [password, setPassword] = React.useState('')
 
@@ -13,6 +15,26 @@ export default function Signin() {
     const handlePasswordChange = (event) => {
         setPassword(event.target.value)
     }
+    const handleClick = (event) => {
+        console.log("Signin: handleClick");
+        event.preventDefault();
+        navigate('/gamepage');
+        // fetch('/api/users/signin', {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     },
+        //     body: JSON.stringify({
+        //         email,
+        //         password
+        //     })
+        // })
+        // .then(response => response.json())
+        // .then(data => {
+        //     console.log(data)
+        //     navigate('/game')
+        // })
+      }
 
 
     return (
@@ -37,7 +59,8 @@ export default function Signin() {
                 </Grid>
                 <Grid item
                     xs={12}>
-                    <Button variant="contained" color="primary">
+                    <Button variant="contained" color="primary"
+                        onClick={handleClick}>
                         Sign In
                     </Button>
                 </Grid>

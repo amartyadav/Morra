@@ -3,6 +3,7 @@ import TextField from '@mui/material/TextField'
 import {Grid} from '@mui/material'
 import Button from '@mui/material/Button'
 import {useNavigate} from 'react-router-dom'
+import axios from 'axios'
 
 export default function Signup() {
     const navigate = useNavigate()
@@ -21,24 +22,15 @@ export default function Signup() {
     };
     const handleClick = (event) => {
         console.log("Signup: handleClick");
-        //event.preventDefault();
-        navigate('/signin');
-        // fetch('/api/users', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify({
-        //         name,
-        //         email,
-        //         password
-        //     })
-        // })
-        // .then(response => response.json())
-        // .then(data => {
-        //     console.log(data)
-        //     Navigate('/signin')
-        // })
+        axios.post('http://localhost:3001/api/users/', {
+            name: name,
+            email: email,
+            password: password
+        })
+        .then(response => {
+            alert("User Signed Up");
+            navigate('/signin')
+        })
     }
 
     return (

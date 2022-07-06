@@ -3,6 +3,7 @@ import TextField from '@mui/material/TextField'
 import {Grid} from '@mui/material'
 import Button from '@mui/material/Button'
 import {useNavigate} from 'react-router-dom'
+import axios from 'axios'
 
 export default function Signin() {
     const navigate = useNavigate()
@@ -18,22 +19,21 @@ export default function Signin() {
     const handleClick = (event) => {
         console.log("Signin: handleClick");
         event.preventDefault();
-        navigate('/gamepage');
-        // fetch('/api/users/signin', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify({
-        //         email,
-        //         password
-        //     })
-        // })
-        // .then(response => response.json())
-        // .then(data => {
-        //     console.log(data)
-        //     navigate('/game')
-        // })
+        axios.post("http://localhost:3001/auth/signin", {
+            email: email,
+            password: password
+        })
+        .then(response => {
+            console.log(response);
+            localStorage.setItem('token', response.data.token)
+            localStorage.setItem('user_id', response.data.user._id)
+            localStorage.setItem('user_name', response.data.user.name)
+            localStorage.setItem('user_email', response.data.user.email)
+            navigate('/gamepage');
+        })
+        .catch(error => {
+            console.log(error);
+        })
       }
 
 

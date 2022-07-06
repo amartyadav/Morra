@@ -2,8 +2,10 @@ import React from 'react'
 import TextField from '@mui/material/TextField'
 import {Grid} from '@mui/material'
 import Button from '@mui/material/Button'
+import {useNavigate} from 'react-router-dom'
 
 export default function Signup() {
+    const navigate = useNavigate()
     const [name, setName] = React.useState('')
     const [email, setEmail] = React.useState('')
     const [password, setPassword] = React.useState('')
@@ -17,6 +19,27 @@ export default function Signup() {
     const handlePasswordChange = (event) => {
         setPassword(event.target.value);
     };
+    const handleClick = (event) => {
+        console.log("Signup: handleClick");
+        //event.preventDefault();
+        navigate('/signin');
+        // fetch('/api/users', {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     },
+        //     body: JSON.stringify({
+        //         name,
+        //         email,
+        //         password
+        //     })
+        // })
+        // .then(response => response.json())
+        // .then(data => {
+        //     console.log(data)
+        //     Navigate('/signin')
+        // })
+    }
 
     return (
         <div>
@@ -45,7 +68,8 @@ export default function Signup() {
                 </Grid>
                 <Grid item
                     xs={12}>
-                    <Button variant="contained" color="primary">
+                    <Button variant="contained" color="primary"
+                        onClick={handleClick}>
                         Sign Up
                     </Button>
                 </Grid>

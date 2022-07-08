@@ -17,6 +17,10 @@ export default function GamePage() {
     const [botGuess, setBotGuess] = React.useState(0)
     const [yourScore, setYourScore] = React.useState(0)
     const [botScore, setBotScore] = React.useState(0)
+    const [isSignedIn, setIsSignedIn] = React.useState(false)
+    useEffect(() => {
+        localStorage.getItem("token") === null ? setIsSignedIn(false) : setIsSignedIn(true)
+    }, [])
 
     const handleClick = (event) => {
         console.log("GamePage: handleClick");
@@ -45,11 +49,13 @@ export default function GamePage() {
     const handleEndGame = (event) => {
         console.log("GamePage: handleEndGame");
         event.preventDefault();
+        const winner = yourScore > botScore ? "😎" : "😓"
         axios.post("http://localhost:3001/api/game/save/" + localStorage.getItem("user_id"), {
             userId: localStorage.getItem("user_id"),
             userName: localStorage.getItem("user_name"),
             botScore: botScore,
             yourScore: yourScore,
+            winner: winner,
             date: Date.now()
         }, {
             headers: {
@@ -72,6 +78,7 @@ export default function GamePage() {
     const handleSignout = (event) => {
         console.log("GamePage: handleSignout");
         event.preventDefault();
+        localStorage.clear()
         axios.get("http://localhost:3001/auth/signout/").then(response => {
             console.log(response);
             navigate('/signin');
@@ -95,94 +102,104 @@ export default function GamePage() {
     }
 
     return (
-        <div>
-            <h1>GamePage</h1>
-            <AppBar position="static">
-                <Toolbar variant='dense'>
-                    <Typography variant="body" component="div"
-                        sx={
-                            {flexGrow: 2}
-                    }>
-                        <Link to="/gamehistory">Your Games</Link>
-                        
-                    </Typography>
-                    <Typography variant="body" component="div"
-                        sx={
-                            {flexGrow: 2}
-                    }>
-                        Your Account
-                    </Typography>
-                    <Button color="inherit"
-                        onClick={handleSignout}>
-                        Sign Out
-                    </Button>
-                </Toolbar>
-            </AppBar>
-            <br/><br/>
+        <div> {
+            !isSignedIn ? (
+                <div>
+                    <h1>
+                        <Link to="/signin">Sign In To View This Page</Link>
+                    </h1>
+                </div>
+            ) : (
+                <div>
+                    <h1>GamePage</h1>
+                    <AppBar position="static">
+                        <Toolbar variant='dense'>
+                            <Typography variant="body" component="div"
+                                sx={
+                                    {flexGrow: 2}
+                            }>
+                                <Link to="/gamehistory">Your Games</Link>
+
+                            </Typography>
+                            <Typography variant="body" component="div"
+                                sx={
+                                    {flexGrow: 2}
+                            }>
+                                Your Account
+                            </Typography>
+                            <Button color="inherit"
+                                onClick={handleSignout}>
+                                Sign Out
+                            </Button>
+                        </Toolbar>
+                    </AppBar>
+                    <br/><br/>
+                    <Grid container
+                        spacing={2}>
+                        <Grid item
+                            xs={6}>
+                            <TextField id="outlined-basic" label="Your Play" variant="outlined"
+                                value={yourPlay}
+                                onChange={
+                                    (event) => {
+                                        setYourPlay(event.target.value)
+                                    }
+                                }/>
+                        </Grid>
+                    <Divider orientation="vertical" flexItem/>
+                    <Grid item xs>
+                        <TextField id="outlined-basic" disabled label="Bot Play" variant="outlined"
+                            value={botPlay}/>
+                    </Grid>
+                    <Grid item
+                        xs={6}>
+                        <TextField id="outlined-basic" label="Your Guess" variant="outlined"
+                            value={yourGuess}
+                            onChange={
+                                (event) => {
+                                    setYourGuess(event.target.value)
+                                }
+                            }/>
+                    </Grid>
+                <Divider orientation="vertical" flexItem/>
+                <Grid item xs>
+                    <TextField id="outlined-basic" disabled label="Bot Guess" variant="outlined"
+                        value={botGuess}/>
+                </Grid>
+                <Divider orientation="vertical" flexItem/>
+                <Grid item
+                    xs={6}>
+                    <p>Your Score: {yourScore}</p>
+                </Grid>
+                <Divider orientation="vertical" flexItem/>
+                <Grid item xs>
+                    <p>Bot Score: {botScore}</p>
+                </Grid>
+            </Grid>
+            <br/>
             <Grid container
                 spacing={2}>
                 <Grid item
-                    xs={6}>
-                    <TextField id="outlined-basic" label="Your Play" variant="outlined"
-                        value={yourPlay}
-                        onChange={
-                            (event) => {
-                                setYourPlay(event.target.value)
-                            }
-                        }/>
+                    xs={12}>
+                    <Button variant="contained" color="primary"
+                        onClick={handleClick}>
+                        Play
+                    </Button>
                 </Grid>
-            <Divider orientation="vertical" flexItem/>
-            <Grid item xs>
-                <TextField id="outlined-basic" disabled label="Bot Play" variant="outlined"
-                    value={botPlay}/>
+                <Grid item
+                    xs={12}>
+                    <Button variant="contained" color="primary"
+                        onClick={handleEndGame}>
+                        End Game and Save Score
+                    </Button>
+                </Grid>
             </Grid>
-            <Grid item
-                xs={6}>
-                <TextField id="outlined-basic" label="Your Guess" variant="outlined"
-                    value={yourGuess}
-                    onChange={
-                        (event) => {
-                            setYourGuess(event.target.value)
-                        }
-                    }/>
-            </Grid>
-        <Divider orientation="vertical" flexItem/>
-        <Grid item xs>
-            <TextField id="outlined-basic" disabled label="Bot Guess" variant="outlined"
-                value={botGuess}/>
-        </Grid>
-        <Divider orientation="vertical" flexItem/>
-        <Grid item
-            xs={6}>
-            <p>Your Score: {yourScore}</p>
-        </Grid>
-        <Divider orientation="vertical" flexItem/>
-        <Grid item xs>
-            <p>Bot Score: {botScore}</p>
-        </Grid>
-    </Grid>
-    <br/>
-    <Grid container
-        spacing={2}>
-        <Grid item
-            xs={12}>
-            <Button variant="contained" color="primary"
-                onClick={handleClick}>
-                Play
-            </Button>
-        </Grid>
-        <Grid item
-            xs={12}>
-            <Button variant="contained" color="primary"
-                onClick={handleEndGame}>
-                End Game and Save Score
-            </Button>
-        </Grid>
-    </Grid>
-    <br/>
-    <Divider flexItem/>
-    <br/>
+            <br/>
+            <Divider flexItem/>
+            <br/>
+        </div>
+            )
+        } </div>
 
-</div>
     )
 }

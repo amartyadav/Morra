@@ -23,6 +23,10 @@ const gameSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
+    winner: {
+        type: String,
+        default: ""
+    }
 }, {collection: "games"});
 
 const gameModel = mongoose.model("Game", gameSchema);

@@ -6,7 +6,7 @@ import Signup from './Components/Signup';
 import Signin from './Components/Signin';
 import GamePage from './Components/GamePage';
 import GameHistory from './Components/GameHistory';
-
+import Account from './Components/Account';
 function App() {
     return (
         <div className="App">
@@ -16,6 +16,7 @@ function App() {
                 <Route exact path="signin" element={<Signin/>}/> 
                 <Route exact path="gamepage" element={<GamePage/>}/>
                 <Route exact path="gamehistory" element={<GameHistory/>}/>
+                <Route exact path="account" element={<Account/>}/>
             </Routes>
         </div>
     );

@@ -29,6 +29,7 @@ export default function Signin() {
             localStorage.setItem('user_id', response.data.user._id)
             localStorage.setItem('user_name', response.data.user.name)
             localStorage.setItem('user_email', response.data.user.email)
+            localStorage.setItem('updated_at', response.data.updated)
             navigate('/gamepage');
         })
         .catch(error => {

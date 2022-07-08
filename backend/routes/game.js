@@ -14,5 +14,7 @@ router.route('/api/game/save/:user_id')
 router.route('/api/game/history/:user_id')
     .get(authCtrl.requireSignin, authCtrl.hasAuthorization, gameCtrl.userGameHistory);
 
+router.route('/api/game/delete/:user_id')
+    .delete(authCtrl.requireSignin, authCtrl.hasAuthorization, gameCtrl.deleteGame);
 router.param('user_id', userCtrl.userByID);
 export default router;

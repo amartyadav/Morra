@@ -35,8 +35,20 @@ const userGameHistory = async (req, res) => {
     }
 }
 
+const deleteGame = async (req, res) => {
+    try {
+        const user_id = req.params.user_id
+        await Game.remove({userId: user_id});
+        return res.status(200).json({message: 'Game records deleted successfully'});
+    }
+    catch (err) {
+        return res.status(400).json({error: dbErrorHandler.getErrorMessage(err)});
+    }
+}
+
 export default {
     play,
     save,
-    userGameHistory
+    userGameHistory,
+    deleteGame
 }

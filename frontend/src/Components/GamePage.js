@@ -125,7 +125,7 @@ export default function GamePage() {
                                 sx={
                                     {flexGrow: 2}
                             }>
-                                Your Account
+                               <Link to="/account">Your Account</Link>
                             </Typography>
                             <Button color="inherit"
                                 onClick={handleSignout}>

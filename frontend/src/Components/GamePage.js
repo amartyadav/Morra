@@ -5,6 +5,9 @@ import Button from '@mui/material/Button'
 import {useNavigate} from 'react-router-dom'
 import axios from 'axios'
 import Divider from '@mui/material/Divider'
+import AppBar from '@mui/material/AppBar'
+import Typography from '@mui/material/Typography'
+import Toolbar from '@mui/material/Toolbar'
 
 export default function GamePage() {
     const navigate = useNavigate()
@@ -18,19 +21,29 @@ export default function GamePage() {
     const handleClick = (event) => {
         console.log("GamePage: handleClick");
         event.preventDefault();
-        axios.get("http://localhost:3001/api/game/")
-        .then(response => {
+        axios.get("http://localhost:3001/api/game/").then(response => {
             console.log(response)
             setBotPlay(response.data.fingers)
             setBotGuess(response.data.guess)
-            if(parseInt(response.data.guess) === parseInt(yourPlay)+parseInt(response.data.fingers)){
-                setBotScore(botScore+1)
+            if (parseInt(response.data.guess) === parseInt(yourPlay) + parseInt(response.data.fingers)) {
+                setBotScore(botScore + 1)
             }
-            if(parseInt(yourGuess) === parseInt(yourPlay)+parseInt(response.data.fingers)){
-                setYourScore(yourScore+1)
+            if (parseInt(yourGuess) === parseInt(yourPlay) + parseInt(response.data.fingers)) {
+                setYourScore(yourScore + 1)
             }
-            console.log({yourPlay: yourPlay, yourGuess: yourGuess, botPlay: botPlay, botGuess: botGuess, yourScore: yourScore, botScore: botScore})
+            console.log({
+                yourPlay: yourPlay,
+                yourGuess: yourGuess,
+                botPlay: botPlay,
+                botGuess: botGuess,
+                yourScore: yourScore,
+                botScore: botScore
+            })
         })
+    }
+
+    const handleEndGame = (event) => {
+        
     }
 
     const handleSignout = (event) => {
@@ -61,48 +74,91 @@ export default function GamePage() {
     return (
         <div>
             <h1>GamePage</h1>
+            <AppBar position="static">
+                <Toolbar variant='dense'>
+                <Typography variant="body" component="div"
+                    sx={
+                        {flexGrow: 2}
+                }>
+                    Your Games
+                </Typography>
+                <Typography variant="body" component="div"
+                    sx={
+                        {flexGrow: 2}
+                }>
+                    Your Account
+                </Typography>
+                <Button color="inherit"
+                    onClick={handleSignout}>
+                    Sign Out
+                </Button>
+                </Toolbar>
+            </AppBar>
+            <br/><br/>
             <Grid container
                 spacing={2}>
                 <Grid item
                     xs={6}>
-                    <TextField id="outlined-basic" label="Your Play" variant="outlined" value={yourPlay} onChange={(event)=> {setYourPlay(event.target.value)}}/>
+                    <TextField id="outlined-basic" label="Your Play" variant="outlined"
+                        value={yourPlay}
+                        onChange={
+                            (event) => {
+                                setYourPlay(event.target.value)
+                            }
+                        }/>
                 </Grid>
-                <Divider orientation="vertical" flexItem/>
-                <Grid item xs>
-                    <TextField id="outlined-basic" disabled label="Bot Play" variant="outlined" value={botPlay}/>
-                </Grid>
-                <Grid item
-                    xs={6}>
-                    <TextField id="outlined-basic" label="Your Guess" variant="outlined" value={yourGuess} onChange={(event)=> {setYourGuess(event.target.value)}}/>
-                </Grid>
-                <Divider orientation="vertical" flexItem/>
-                <Grid item xs>
-                    <TextField id="outlined-basic" disabled label="Bot Guess" variant="outlined" value={botGuess}/>
-                </Grid>
-                <Divider orientation="vertical" flexItem/>
-                <Grid item xs={6}>
-                    <p>Your Score: {yourScore}</p>
-                </Grid>
-                <Divider orientation="vertical" flexItem/>
-                <Grid item xs>
-                    <p>Bot Score: {botScore}</p>
-                </Grid>
+            <Divider orientation="vertical" flexItem/>
+            <Grid item xs>
+                <TextField id="outlined-basic" disabled label="Bot Play" variant="outlined"
+                    value={botPlay}/>
             </Grid>
-            <br/>
-            <Grid container
-                spacing={2}>
-                <Grid item
-                    xs={12}>
-                    <Button variant="contained" color="primary"
-                        onClick={handleClick}>
-                        Play
-                    </Button>
-                </Grid>
-                </Grid>
-                <br/>
-            <Divider flexItem/>
-            <br/>
-            
-        </div>
+            <Grid item
+                xs={6}>
+                <TextField id="outlined-basic" label="Your Guess" variant="outlined"
+                    value={yourGuess}
+                    onChange={
+                        (event) => {
+                            setYourGuess(event.target.value)
+                        }
+                    }/>
+            </Grid>
+        <Divider orientation="vertical" flexItem/>
+        <Grid item xs>
+            <TextField id="outlined-basic" disabled label="Bot Guess" variant="outlined"
+                value={botGuess}/>
+        </Grid>
+        <Divider orientation="vertical" flexItem/>
+        <Grid item
+            xs={6}>
+            <p>Your Score: {yourScore}</p>
+        </Grid>
+        <Divider orientation="vertical" flexItem/>
+        <Grid item xs>
+            <p>Bot Score: {botScore}</p>
+        </Grid>
+    </Grid>
+    <br/>
+    <Grid container
+        spacing={2}>
+        <Grid item
+            xs={12}>
+            <Button variant="contained" color="primary"
+                onClick={handleClick}>
+                Play
+            </Button>
+        </Grid>
+        <Grid item
+            xs={12}>
+            <Button variant="contained" color="primary"
+                onClick={handleEndGame}>
+                End Game and Save Score
+            </Button>
+        </Grid>
+    </Grid>
+    <br/>
+    <Divider flexItem/>
+    <br/>
+
+</div>
     )
 }

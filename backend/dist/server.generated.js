@@ -27,7 +27,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\nconst play = async (req, res) => {\n  try {\n    let guess = Math.floor(Math.random() * 10) + 1;\n    let fingers = Math.floor(Math.random() * 20) + 1;\n    return res.status(200).json({\n      guess: guess,\n      fingers: fingers\n    });\n  } catch (err) {\n    return res.status(400).json({\n      error: 'Could not play the chance. Try again.'\n    });\n  }\n};\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({\n  play\n});\n\n//# sourceURL=webpack://backend/./controllers/game.controller.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\nconst play = async (req, res) => {\n  try {\n    let guess = Math.floor(Math.random() * 20) + 1;\n    let fingers = Math.floor(Math.random() * 10) + 1;\n    return res.status(200).json({\n      guess: guess,\n      fingers: fingers\n    });\n  } catch (err) {\n    return res.status(400).json({\n      error: 'Could not play the chance. Try again.'\n    });\n  }\n};\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({\n  play\n});\n\n//# sourceURL=webpack://backend/./controllers/game.controller.js?");
 
 /***/ }),
 

@@ -13,6 +13,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import {Link, useNavigate} from 'react-router-dom';
+import {Grid} from '@mui/material';
 
 export default function GameHistory() {
 
@@ -25,7 +26,7 @@ export default function GameHistory() {
     }, [])
 
     // useEffect(() => {
-    //   if (isSignedIn) {
+    // if (isSignedIn) {
     //     const user_id = localStorage.getItem("user_id");
     //     axios.get("http://127.0.0.1:3001/api/game/history/" + user_id, {
     //         headers: {
@@ -40,13 +41,29 @@ export default function GameHistory() {
     // }, [])
 
     const loadGameHistory = () => {
-      const user_id = localStorage.getItem("user_id");
+        const user_id = localStorage.getItem("user_id");
         axios.get("http://127.0.0.1:3001/api/game/history/" + user_id, {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
             }
         }).then(response => {
             setResponseHistory(response.data);
+        }).catch(error => {
+            console.log(error);
+        })
+    }
+
+    const clearGameHistory = () => {
+        const user_id = localStorage.getItem("user_id");
+        axios.delete("http://localhost:3001/api/game/delete/" + localStorage.getItem("user_id"), {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        }).then(response => {
+            console.log(response);
+            alert("Game History Cleared!");
+            setResponseHistory([]);
+            // console.log("Deleted user's game records")
         }).catch(error => {
             console.log(error);
         })
@@ -80,72 +97,82 @@ export default function GameHistory() {
 
     return (<div> {
         !isSignedIn ? (
-                  <div>
-                      <h1>
-                          <Link to="/signin">Sign In To View This Page</Link>
-                      </h1>
-                  </div>
-              ) : (
-                  <div>
-                <h1>Game History</h1>
-                <AppBar position="static">
-                        <Toolbar variant='dense'>
-                            <Typography variant="body" component="div"
-                                sx={
-                                    {flexGrow: 2}
-                            }>
-                                <Link to="/gamepage">Game Page</Link>
-                                
-                            </Typography>
-                            <Typography variant="body" component="div"
-                                sx={
-                                    {flexGrow: 2}
-                            }>
-                                <Link to="/account">Your Account</Link>
-                            </Typography>
-                            <Button color="inherit"
-                                onClick={handleSignout}>
-                                Sign Out
-                            </Button>
-                        </Toolbar>
-                    </AppBar>
-                    <br/>
-                    <Button variant="contained" color="primary"
-                        onClick={loadGameHistory}>
-                    
-                      Load Game History
-                    </Button>
-                    <br/>
-                    <br/>
-                <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Date and Time</TableCell>
-                    <TableCell align="right">Your Score</TableCell>
-                    <TableCell align="right">Bot's Score</TableCell>
-                    <TableCell align="right">Did You Win?</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {responseHistory.map((row) => (
-                    <TableRow
-                      key={row._id}
-                      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                    >
-                      <TableCell component="th" scope="row">
-                        {formatDate(row.date)}
-                      </TableCell>
-                      <TableCell align="right">{row.yourScore}</TableCell>
-                      <TableCell align="right">{row.botScore}</TableCell>
-                      <TableCell align="right">{row.winner}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-                  </div>
-              )}
-            </div>
+                                  <div>
+                                      <h1>
+                                          <Link to="/signin">Sign In To View This Page</Link>
+                                      </h1>
+                                  </div>
+                              ) : (
+                                  <div>
+                                <h1>Game History</h1>
+                                <AppBar position="static">
+                                        <Toolbar variant='dense'>
+                                            <Typography variant="body" component="div"
+                                                sx={
+                                                    {flexGrow: 2}
+                                            }>
+                                                <Link to="/gamepage">Game Page</Link>
+                                                
+                                            </Typography>
+                                            <Typography variant="body" component="div"
+                                                sx={
+                                                    {flexGrow: 2}
+                                            }>
+                                                <Link to="/account">Your Account</Link>
+                                            </Typography>
+                                            <Button color="inherit"
+                                                onClick={handleSignout}>
+                                                Sign Out
+                                            </Button>
+                                        </Toolbar>
+                                    </AppBar>
+                                    <br/>
+                                    <Grid container spacing={3}>
+                                        <Grid item xs={6}>
+                                        <Button variant="contained" color="primary"
+                                        onClick={loadGameHistory}>
+                                    
+                                      Load Game History
+                                    </Button>
+                                        </Grid>
+                                        <Grid item xs={6}>
+                                        <Button variant="contained" color="primary"
+                                        onClick={clearGameHistory}>
+                                    
+                                      Clear Previous Games
+                                    </Button>
+                                          </Grid>
+                                      </Grid>                                    
+                                    <br/> <br/>                                                        
+                                <TableContainer component={Paper}>
+                              <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                <TableHead>
+                                  <TableRow>
+                                    <TableCell>Date and Time</TableCell>
+                                    <TableCell align="right">Your Score</TableCell>
+                                    <TableCell align="right">Bot's Score</TableCell>
+                                    <TableCell align="right">Did You Win?</TableCell>
+                                  </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                  {responseHistory.map((row) => (
+                                    <TableRow
+                                      key={row._id}
+                                      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                      <TableCell component="th" scope="row">
+                                        {formatDate(row.date)}
+                                      </TableCell>
+                                      <TableCell align="right">{row.yourScore}</TableCell>
+                                      <TableCell align="right">{row.botScore}</TableCell>
+                                      <TableCell align="right">{row.winner}</TableCell>
+                                    </TableRow>
+                                  ))}
+                                </TableBody>
+                              </Table>
+                            </TableContainer>
+                                  </div>
+                              )}
+                            </div>
         )
     }

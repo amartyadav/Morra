@@ -2,7 +2,7 @@ import React, {useEffect} from 'react'
 import TextField from '@mui/material/TextField'
 import {Grid} from '@mui/material'
 import Button from '@mui/material/Button'
-import {useNavigate} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 import axios from 'axios'
 import Divider from '@mui/material/Divider'
 import AppBar from '@mui/material/AppBar'
@@ -45,17 +45,16 @@ export default function GamePage() {
     const handleEndGame = (event) => {
         console.log("GamePage: handleEndGame");
         event.preventDefault();
-        axios.post("http://localhost:3001/api/game/save/" + localStorage.getItem("user_id"), 
-         {
+        axios.post("http://localhost:3001/api/game/save/" + localStorage.getItem("user_id"), {
             userId: localStorage.getItem("user_id"),
             userName: localStorage.getItem("user_name"),
             botScore: botScore,
             yourScore: yourScore,
             date: Date.now()
         }, {
-            headers : {
+            headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
-            },
+            }
         }).then(response => {
             alert("Game saved!")
             console.log(response)
@@ -104,7 +103,8 @@ export default function GamePage() {
                         sx={
                             {flexGrow: 2}
                     }>
-                        Your Games
+                        <Link to="/gamehistory">Your Games</Link>
+                        
                     </Typography>
                     <Typography variant="body" component="div"
                         sx={

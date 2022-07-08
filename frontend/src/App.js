@@ -5,6 +5,7 @@ import {Routes, Route} from 'react-router-dom';
 import Signup from './Components/Signup';
 import Signin from './Components/Signin';
 import GamePage from './Components/GamePage';
+import GameHistory from './Components/GameHistory';
 
 function App() {
     return (
@@ -14,6 +15,7 @@ function App() {
                 <Route exact path="signup" element={<Signup/>}/> 
                 <Route exact path="signin" element={<Signin/>}/> 
                 <Route exact path="gamepage" element={<GamePage/>}/>
+                <Route exact path="gamehistory" element={<GameHistory/>}/>
             </Routes>
         </div>
     );

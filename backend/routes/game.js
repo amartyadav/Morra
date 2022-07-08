@@ -11,5 +11,8 @@ router.route('/api/game')
 router.route('/api/game/save/:user_id')
     .post(authCtrl.requireSignin, authCtrl.hasAuthorization, gameCtrl.save);
 
+router.route('/api/game/history/:user_id')
+    .get(authCtrl.requireSignin, authCtrl.hasAuthorization, gameCtrl.userGameHistory);
+
 router.param('user_id', userCtrl.userByID);
 export default router;

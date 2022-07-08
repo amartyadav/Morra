@@ -62,6 +62,10 @@ const hasAuthorization = (req, res, next) => {
     next()
 }
 
+// const hasHistoryViewAuthorization = (req, res, next) => {
+//     const authorised = = req.profile && req.auth && req.profile.userId == req.auth.user_id
+// }
+
 // const userType = (req, res, next) => {
 //     console.log(req.user)
 //     if(req.profile.type != 'admin'){

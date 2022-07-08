@@ -23,9 +23,20 @@ const save = async (req, res) => {
     }
 }
 
-
+const userGameHistory = async (req, res) => {
+    try {
+        const user_id = req.params.user_id
+        //const userId = req.body.id;
+        const games = await Game.find({userId: user_id});
+        return res.status(200).json(games);
+    }
+    catch (err) {
+        return res.status(400).json({error: err});
+    }
+}
 
 export default {
     play,
-    save
+    save,
+    userGameHistory
 }

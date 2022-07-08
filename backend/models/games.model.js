@@ -25,6 +25,6 @@ const gameSchema = new mongoose.Schema({
     },
 }, {collection: "games"});
 
-const gameModel = mongoose.model("game", gameSchema);
+const gameModel = mongoose.model("Game", gameSchema);
 gameModel.createIndexes();
 export default gameModel;

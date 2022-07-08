@@ -43,7 +43,31 @@ export default function GamePage() {
     }
 
     const handleEndGame = (event) => {
-        
+        console.log("GamePage: handleEndGame");
+        event.preventDefault();
+        axios.post("http://localhost:3001/api/game/save/" + localStorage.getItem("user_id"), 
+         {
+            userId: localStorage.getItem("user_id"),
+            userName: localStorage.getItem("user_name"),
+            botScore: botScore,
+            yourScore: yourScore,
+            date: Date.now()
+        }, {
+            headers : {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            },
+        }).then(response => {
+            alert("Game saved!")
+            console.log(response)
+            setBotGuess(0)
+            setBotPlay(0)
+            setBotScore(0)
+            setYourGuess(0)
+            setYourPlay(0)
+            setYourScore(0)
+        }).catch(error => {
+            console.log(error)
+        })
     }
 
     const handleSignout = (event) => {
@@ -76,22 +100,22 @@ export default function GamePage() {
             <h1>GamePage</h1>
             <AppBar position="static">
                 <Toolbar variant='dense'>
-                <Typography variant="body" component="div"
-                    sx={
-                        {flexGrow: 2}
-                }>
-                    Your Games
-                </Typography>
-                <Typography variant="body" component="div"
-                    sx={
-                        {flexGrow: 2}
-                }>
-                    Your Account
-                </Typography>
-                <Button color="inherit"
-                    onClick={handleSignout}>
-                    Sign Out
-                </Button>
+                    <Typography variant="body" component="div"
+                        sx={
+                            {flexGrow: 2}
+                    }>
+                        Your Games
+                    </Typography>
+                    <Typography variant="body" component="div"
+                        sx={
+                            {flexGrow: 2}
+                    }>
+                        Your Account
+                    </Typography>
+                    <Button color="inherit"
+                        onClick={handleSignout}>
+                        Sign Out
+                    </Button>
                 </Toolbar>
             </AppBar>
             <br/><br/>

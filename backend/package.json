@@ -20,9 +20,7 @@
     "jsonwebtoken": "^8.5.1",
     "loadash": "^1.0.0",
     "mongoose": "^6.2.9",
-    "morgan": "~1.9.1"
-  },
-  "devDependencies": {
+    "morgan": "~1.9.1",
     "@babel/cli": "^7.17.6",
     "@babel/core": "^7.17.8",
     "@babel/preset-env": "^7.16.11",

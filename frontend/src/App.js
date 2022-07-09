@@ -9,8 +9,12 @@ import GameHistory from './Components/GameHistory';
 import Account from './Components/Account';
 import Leaderboard from './Components/Leaderboard';
 import Events from './Components/Events';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+
 function App() {
     return (
+        <LocalizationProvider dateAdapter={AdapterMoment}>
         <div className="App">
             <Routes>
                 <Route exact path="/" element={<Welcome/>}/>
@@ -23,6 +27,7 @@ function App() {
                 <Route exact path="events" element={<Events/>}/>
             </Routes>
         </div>
+        </LocalizationProvider>
     );
 }
 

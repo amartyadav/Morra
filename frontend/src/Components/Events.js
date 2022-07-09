@@ -13,13 +13,20 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { NavLink, useNavigate } from "react-router-dom";
-import { Grid } from "@mui/material";
+import { Grid, TextField } from "@mui/material";
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+
 
 export default function Events() {
     const [ responseEvents, setResponseEvents ] = React.useState([]);
     const navigate = useNavigate();
     const [ isSignedIn, setIsSignedIn ] = React.useState(false);
     const [ isAdmin, setIsAdmin ] = React.useState(false);
+    const [ eventName, setEventName ] = React.useState('');
+    const [ eventDescription, setEventDescription ] = React.useState('');
+    const [ eventDate, setEventDate ] = React.useState('');
+    const [ eventTime, setEventTime ] = React.useState('');
+    const [ eventVenue, setEventVenue ] = React.useState('');
 
     useEffect(() => {
         localStorage.getItem("token") === null
@@ -29,6 +36,20 @@ export default function Events() {
             ? setIsAdmin(true)
             : setIsAdmin(false);
     }, []);
+
+    const handleEventNameChange = (event) => {
+        setEventName(event.target.value);
+    }
+    const handleEventDescriptionChange = (event) => {
+        setEventDescription(event.target.value);
+    }
+    const handleEventTimeChange = (event) => {
+        setEventTime(event.target.value);
+    }
+    const handleEventVenueChange = (event) => {
+        setEventVenue(event.target.value);
+    }
+
 
     const loadEvents = () => {
         const user_id = localStorage.getItem("user_id");
@@ -42,8 +63,31 @@ export default function Events() {
     };
 
     const addEvent = (event) => {
+        console.log("token: " + localStorage.getItem("token"));
+        event.preventDefault();
+        axios.post("http://127.0.0.1:3001/api/events/create/" + localStorage.getItem("user_id") ,
+        {
+            eventName: eventName,
+            description: eventDescription,
+            venue: eventVenue,
+            date: eventDate,
+            time: eventTime,
+        } ,
+        {
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("token"),
+            }
+        }
+        )
+        .then((response) => {
+            console.log(response);
+            loadEvents();
+        })
+        .catch((error) => {
+            console.log(error);
+        })
 
-    }
+}
 
     const handleSignout = (event) => {
         console.log("GamePage: handleSignout");
@@ -114,6 +158,38 @@ export default function Events() {
                         </Toolbar>
                     </AppBar>
                     <br />
+                    { isAdmin ? (<div>
+                            <br/>
+                            <Grid container spacing={ 3 }>
+                            <Grid item xs={ 12 }>
+                                <TextField id="event_name" label="Event Name" variant="outlined" value={eventName} onChange={handleEventNameChange} />
+                            </Grid>
+                            <Grid item xs={ 12 }>
+                                <TextField id="event_name" label="Event Descriptiom" variant="outlined" value={eventDescription} onChange={handleEventDescriptionChange} />
+                            </Grid>
+                            <Grid item xs={ 12 }>
+                                <TextField id="event_name" label="Event Time" variant="outlined" value={eventTime} onChange={handleEventTimeChange} />
+                            </Grid>
+                            <Grid item xs={ 12 }>
+                                <DateTimePicker renderInput={(props) => <TextField {...props} />}
+                                    label="Event Date and Time"
+                                    value={eventDate}
+                                    onChange={(date) => setEventDate(date)}
+                                />
+                            </Grid>
+                            <Grid item xs={ 12 }>
+                                <TextField id="event_name" label="Event Venue" variant="outlined" value={eventVenue} onChange={handleEventVenueChange} />
+                            </Grid>
+                            <Grid item xs={ 12 }>
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={addEvent}
+                                    >Create Event</Button>
+                            </Grid>
+                            </Grid>
+                        </div>): (<></>)}
+                    <br />
                     <Grid container spacing={ 3 }>
                         <Grid item xs={ 12 }>
                             <Button
@@ -125,18 +201,7 @@ export default function Events() {
                             </Button>
                         </Grid>
                         </Grid>
-                        { isAdmin ? (<div>
-                            <br/>
-                            <Grid container spacing={ 3 }>
-                                <Grid item xs={ 12 }>
-                                <Button
-                                    variant="contained"
-                                    color="primary"
-                                    onClick={addEvent}
-                                    >Create Event</Button>
-                            </Grid>
-                            </Grid>
-                        </div>): (<></>)}
+                        
                     <br /> <br />
                     <TableContainer component={ Paper }>
                         <Table sx={ { minWidth: 650 } } aria-label="simple table">

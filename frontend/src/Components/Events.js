@@ -25,6 +25,9 @@ export default function Events() {
         localStorage.getItem("token") === null
             ? setIsSignedIn(false)
             : setIsSignedIn(true);
+        localStorage.getItem("user_type") === "admin"
+            ? setIsAdmin(true)
+            : setIsAdmin(false);
     }, []);
 
     const loadEvents = () => {
@@ -37,6 +40,10 @@ export default function Events() {
                 console.log(error);
             });
     };
+
+    const addEvent = (event) => {
+
+    }
 
     const handleSignout = (event) => {
         console.log("GamePage: handleSignout");
@@ -117,7 +124,19 @@ export default function Events() {
                                 Load Events
                             </Button>
                         </Grid>
-                    </Grid>
+                        </Grid>
+                        { isAdmin ? (<div>
+                            <br/>
+                            <Grid container spacing={ 3 }>
+                                <Grid item xs={ 12 }>
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={addEvent}
+                                    >Create Event</Button>
+                            </Grid>
+                            </Grid>
+                        </div>): (<></>)}
                     <br /> <br />
                     <TableContainer component={ Paper }>
                         <Table sx={ { minWidth: 650 } } aria-label="simple table">

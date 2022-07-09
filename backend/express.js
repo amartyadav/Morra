@@ -16,6 +16,7 @@ import indexRouter from './routes/index'
 import usersRouter from './routes/users'
 import authRouter from './routes/auth'
 import gameRouter from './routes/game'
+import eventRouter from './routes/events'
 
 // parse body params and attache them to req.body app.use(bodyParser.json()) app.use(bodyParser.urlencoded({ extended: true })) app.use(cookieParser())
 app.use(compress())
@@ -34,6 +35,7 @@ app.use('/', indexRouter);
 app.use('/', usersRouter);
 app.use('/', authRouter);
 app.use('/', gameRouter);
+app.use('/', eventRouter);
 
 app.use((err, req, res, next) => {
     if(err.name === 'UnauthorizedError'){

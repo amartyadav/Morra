@@ -64,8 +64,10 @@ const hasAuthorization = (req, res, next) => {
 }
 
 const isAdmin = (req, res, next) => {
-    console.log(req.user)
-    if (req.profile.userType != 'admin') {
+    const authorised = req.profile && req.auth && req.profile.userType == 'admin'
+    console.log(req.profile.userType)
+    console.log(authorised)
+    if (!authorised) {
         return res.status(403).json({
             message: 'User is not admin'
         })

@@ -31,6 +31,7 @@ const signin = async (req, res) => {
                 name: user.name,
                 email: user.email,
                 highScore: user.highScore,
+                userType: user.userType
             }
         })
     } catch (err) {

@@ -102,7 +102,6 @@ export default function GameHistory() {
 
   return (
     <div>
-      { " " }
       { !isSignedIn ? (
         <div>
           <h1>

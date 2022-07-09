@@ -8,7 +8,7 @@ import GamePage from './Components/GamePage';
 import GameHistory from './Components/GameHistory';
 import Account from './Components/Account';
 import Leaderboard from './Components/Leaderboard';
-
+import Events from './Components/Events';
 function App() {
     return (
         <div className="App">
@@ -20,6 +20,7 @@ function App() {
                 <Route exact path="gamehistory" element={<GameHistory/>}/>
                 <Route exact path="account" element={<Account/>}/>
                 <Route exact path="leaderboard" element={<Leaderboard/>}/>
+                <Route exact path="events" element={<Events/>}/>
             </Routes>
         </div>
     );

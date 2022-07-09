@@ -11,24 +11,12 @@ const create = async (req, res) => {
     }
 }
 
-const list = async (req, res) => {
+const listEvents = async (req, res) => {
     try {
-        const events = await Event.find().select("-__v");
+        const events = await Event.find().sort({date: -1}).select("-__v");
         res.json(events);
     } catch (err) {
-        return res.status(400).json({error: dbErrorHandler.getErrorMessage(err)});
-    }
-}
-
-const update = async (req, res) => {
-    try {
-        let event = req.event;
-        event = extend(event, req.body);
-        event.updated = Date.now();
-        await event.save();
-        res.json(event);
-    } catch (err) {
-        return res.status(400).json({error: dbErrorHandler.getErrorMessage(err)});
+        return res.status(400).json({error: dbErrorHandler.getErrorMessage(err)})
     }
 }
 
@@ -44,7 +32,6 @@ const remove = async (req, res) => {
 
 export default {
     create,
-    list,
-    update,
+    listEvents,
     remove
 }

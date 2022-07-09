@@ -5,14 +5,14 @@ require('dotenv').config();
 
 const signin = async (req, res) => {
     console.log(req.user)
-    try{
-        let user = await User.findOne({email: req.body.email})
-        if(!user){
+    try {
+        let user = await User.findOne({ email: req.body.email })
+        if (!user) {
             return res.status(401).json({
                 message: 'User not found'
             })
         }
-        if(!user.authenticate(req.body.password)){
+        if (!user.authenticate(req.body.password)) {
             return res.status(401).json({
                 message: 'Email and password do not match'
             })
@@ -22,7 +22,7 @@ const signin = async (req, res) => {
             _id: user._id,
         }, process.env.JWT_SECRET)
 
-        res.cookie('t', token, {expire: new Date() + 9999})
+        res.cookie('t', token, { expire: new Date() + 9999 })
 
         return res.json({
             token,
@@ -33,7 +33,7 @@ const signin = async (req, res) => {
                 highScore: user.highScore,
             }
         })
-    } catch(err){
+    } catch (err) {
         return res.status(401).json({
             message: 'Could not sign in. Please try again'
         })
@@ -50,12 +50,12 @@ const signout = (req, res) => {
 const requireSignin = expressJwt({
     secret: process.env.JWT_SECRET,
     userProperty: 'auth',
-    algorithms: ['HS256']
+    algorithms: [ 'HS256' ]
 })
 
 const hasAuthorization = (req, res, next) => {
     const authorised = req.profile && req.auth && req.profile._id == req.auth._id
-    if(!authorised){
+    if (!authorised) {
         return res.status(403).json({
             message: 'User is not authorized'
         })
@@ -63,19 +63,15 @@ const hasAuthorization = (req, res, next) => {
     next()
 }
 
-// const hasHistoryViewAuthorization = (req, res, next) => {
-//     const authorised = = req.profile && req.auth && req.profile.userId == req.auth.user_id
-// }
-
-// const userType = (req, res, next) => {
-//     console.log(req.user)
-//     if(req.profile.type != 'admin'){
-//         return res.status(403).json({
-//             message: 'User is not authorized'
-//         })
-//     }
-//     next()
-// }
+const isAdmin = (req, res, next) => {
+    console.log(req.user)
+    if (req.profile.userType != 'admin') {
+        return res.status(403).json({
+            message: 'User is not admin'
+        })
+    }
+    next()
+}
 
 
 export default {
@@ -83,5 +79,5 @@ export default {
     signout,
     requireSignin,
     hasAuthorization,
-    //userType
+    isAdmin
 }

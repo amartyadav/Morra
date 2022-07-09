@@ -32,6 +32,11 @@ const userSchema = new mongoose.Schema({
         default: Date.now
     },
 
+    highScore: {
+        type: Number,
+        default: 0
+    },
+
     userType: {
         type: String,
         enum: ["admin", "user"],

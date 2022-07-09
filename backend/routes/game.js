@@ -8,6 +8,9 @@ const router = express.Router();
 router.route('/api/game')
     .get(gameCtrl.play);
 
+router.route('/api/game/highscores')
+    .get(authCtrl.requireSignin, userCtrl.listHighScores);
+
 router.route('/api/game/save/:user_id')
     .post(authCtrl.requireSignin, authCtrl.hasAuthorization, gameCtrl.save);
 

@@ -24,6 +24,15 @@ const list = async (req, res) => {
     }
 }
 
+const listHighScores = async (req, res) => {
+    try {
+        const users = await User.find().sort({highScore: -1}).select('name highScore');
+        res.json(users);
+    } catch (err) {
+        return res.status(400).json({error: dbErrorHandler.getErrorMessage(err)})
+    }
+}
+
 const userByID = async (req, res, next, id) => {
     try {
         const user = await User.findById(id);
@@ -74,14 +83,6 @@ export default {
     userByID,
     read,
     update,
-    remove
+    remove,
+    listHighScores
 }
-
-// module.exports = {
-//     create,
-//     list,
-//     userByID,
-//     read,
-//     update,
-//     remove
-// }

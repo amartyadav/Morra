@@ -65,6 +65,20 @@ const update = async (req, res) => {
     }
 }
 
+const updateHighScore = async (req, res) => {
+    try {
+        let user = req.profile;
+        user.highScore = req.body.highScore;
+        user.updated = Date.now();
+        await user.save()
+        user.hashed_password = undefined; // remove password from response
+        user.salt = undefined; // remove salt from response
+        res.json(user);
+    } catch (err) {
+        return res.status(400).json({error: dbErrorHandler.getErrorMessage(err)})
+    }
+}
+
 const remove = async (req, res) => {
     try {
         let user = req.profile
@@ -84,5 +98,6 @@ export default {
     read,
     update,
     remove,
-    listHighScores
+    listHighScores,
+    updateHighScore
 }

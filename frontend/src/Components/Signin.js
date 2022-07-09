@@ -30,6 +30,7 @@ export default function Signin() {
             localStorage.setItem('user_name', response.data.user.name)
             localStorage.setItem('user_email', response.data.user.email)
             localStorage.setItem('updated_at', response.data.updated)
+            localStorage.setItem('highScore', response.data.user.highScore)
             navigate('/gamepage');
         })
         .catch(error => {

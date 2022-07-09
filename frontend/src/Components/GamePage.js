@@ -18,6 +18,10 @@ export default function GamePage() {
     const [yourScore, setYourScore] = React.useState(0)
     const [botScore, setBotScore] = React.useState(0)
     const [isSignedIn, setIsSignedIn] = React.useState(false)
+
+    let prevHighScore = parseInt(localStorage.getItem('highScore'));
+    let newHighScore = 0;
+
     useEffect(() => {
         localStorage.getItem("token") === null ? setIsSignedIn(false) : setIsSignedIn(true)
     }, [])
@@ -50,6 +54,22 @@ export default function GamePage() {
         console.log("GamePage: handleEndGame");
         event.preventDefault();
         const winner = yourScore > botScore ? "😎" : "😓"
+        if (yourScore > prevHighScore) {
+            localStorage.setItem('highScore', yourScore)
+            console.log("new High score: " + yourScore)
+            axios.post("http://127.0.0.1:3001/api/game/highscore/update/" + localStorage.getItem("user_id"), {
+                highScore: yourScore
+            }, {
+                headers: {
+                    Authorization: "Bearer " + localStorage.getItem("token")
+                }
+            }).then(response => {
+                console.log(response)
+            }).catch(error => {
+                console.log(error)
+            })
+        }
+
         axios.post("http://localhost:3001/api/game/save/" + localStorage.getItem("user_id"), {
             userId: localStorage.getItem("user_id"),
             userName: localStorage.getItem("user_name"),
@@ -125,7 +145,7 @@ export default function GamePage() {
                                 sx={
                                     {flexGrow: 2}
                             }>
-                               <Link to="/account">Your Account</Link>
+                                <Link to="/account">Your Account</Link>
                             </Typography>
                             <Button color="inherit"
                                 onClick={handleSignout}>

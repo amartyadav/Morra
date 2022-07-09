@@ -123,6 +123,9 @@ export default function GameHistory() {
                 <NavLink style={{ textDecoration: 'none', color: 'inherit' }} to="/leaderboard">Public LeaderBoard</NavLink>
               </Typography>
               <Typography variant="body" component="div" sx={ { flexGrow: 2 } }>
+                <NavLink style={{ textDecoration: 'none', color: 'inherit' }} to="/events">Events</NavLink>
+              </Typography>
+              <Typography variant="body" component="div" sx={ { flexGrow: 2 } }>
                 <NavLink style={{ textDecoration: 'none', color: 'inherit' }} to="/account">Your Account</NavLink>
               </Typography>
               <Button color="inherit" onClick={ handleSignout }>

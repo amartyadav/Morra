@@ -88,16 +88,19 @@ export default function Account() {
                     <AppBar position="static">
                         <Toolbar variant="dense">
                             <Typography variant="body" component="div" sx={ { flexGrow: 2 } }>
-                                <NavLink style={{ textDecoration: 'none', color: 'inherit' }} to="/gamepage">Game Page</NavLink>
+                                <NavLink style={ { textDecoration: 'none', color: 'inherit' } } to="/gamepage">Game Page</NavLink>
                             </Typography>
                             <Typography variant="body" component="div" sx={ { flexGrow: 2 } }>
-                                <NavLink style={{ textDecoration: 'none', color: 'inherit' }} to="/gamehistory">Your Games</NavLink>
+                                <NavLink style={ { textDecoration: 'none', color: 'inherit' } } to="/gamehistory">Your Games</NavLink>
                             </Typography>
                             <Typography variant="body" component="div" sx={ { flexGrow: 2 } }>
-                                <NavLink style={{ textDecoration: 'none', color: 'inherit' }} to="/leaderboard">Public LeaderBoard</NavLink>
+                                <NavLink style={ { textDecoration: 'none', color: 'inherit' } } to="/leaderboard">Public LeaderBoard</NavLink>
                             </Typography>
                             <Typography variant="body" component="div" sx={ { flexGrow: 2 } }>
-                                <NavLink style={{ textDecoration: 'none', color: 'inherit' }} to="/account">Your Account</NavLink>
+                                <NavLink style={ { textDecoration: 'none', color: 'inherit' } } to="/events">Events</NavLink>
+                            </Typography>
+                            <Typography variant="body" component="div" sx={ { flexGrow: 2 } }>
+                                <NavLink style={ { textDecoration: 'none', color: 'inherit' } } to="/account">Your Account</NavLink>
                             </Typography>
                             <Button color="inherit" onClick={ handleSignout }>
                                 Sign Out

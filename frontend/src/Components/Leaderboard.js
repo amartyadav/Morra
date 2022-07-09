@@ -74,7 +74,7 @@ export default function Leaderboard() {
             <Toolbar variant="dense">
               <Typography variant="body" component="div" sx={ { flexGrow: 2 } }>
                 <NavLink
-                style={{ textDecoration: 'none', color: 'inherit' }}
+                  style={ { textDecoration: 'none', color: 'inherit' } }
                   to="/gamepage"
                   className={ (isActive) =>
                     "nav-link" + (!isActive ? " unselected" : "")
@@ -85,7 +85,7 @@ export default function Leaderboard() {
               </Typography>
               <Typography variant="body" component="div" sx={ { flexGrow: 2 } }>
                 <NavLink
-                style={{ textDecoration: 'none', color: 'inherit' }}
+                  style={ { textDecoration: 'none', color: 'inherit' } }
                   to="/gamehistory"
                   className={ (isActive) =>
                     "nav-link" + (!isActive ? " unselected" : "")
@@ -96,7 +96,7 @@ export default function Leaderboard() {
               </Typography>
               <Typography variant="body" component="div" sx={ { flexGrow: 2 } }>
                 <NavLink
-                style={{ textDecoration: 'none', color: 'inherit' }}
+                  style={ { textDecoration: 'none', color: 'inherit' } }
                   to="/leaderboard"
                   className={ (isActive) =>
                     "nav-link" + (!isActive ? " unselected" : "")
@@ -106,8 +106,11 @@ export default function Leaderboard() {
                 </NavLink>
               </Typography>
               <Typography variant="body" component="div" sx={ { flexGrow: 2 } }>
+                <NavLink style={ { textDecoration: 'none', color: 'inherit' } } to="/events">Events</NavLink>
+              </Typography>
+              <Typography variant="body" component="div" sx={ { flexGrow: 2 } }>
                 <NavLink
-                style={{ textDecoration: 'none', color: 'inherit' }}
+                  style={ { textDecoration: 'none', color: 'inherit' } }
                   to="/account"
                   className={ (isActive) =>
                     "nav-link" + (!isActive ? " unselected" : "")

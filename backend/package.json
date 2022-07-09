@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "nodemon"
+    "start": "nodemon"
   },
   "dependencies": {
     "body-parser": "^1.19.2",

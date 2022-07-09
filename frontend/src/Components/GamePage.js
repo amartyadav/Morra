@@ -2,7 +2,7 @@ import React, {useEffect} from 'react'
 import TextField from '@mui/material/TextField'
 import {Grid} from '@mui/material'
 import Button from '@mui/material/Button'
-import {Link, useNavigate} from 'react-router-dom'
+import {NavLink, useNavigate} from 'react-router-dom'
 import axios from 'axios'
 import Divider from '@mui/material/Divider'
 import AppBar from '@mui/material/AppBar'
@@ -126,7 +126,7 @@ export default function GamePage() {
             !isSignedIn ? (
                 <div>
                     <h1>
-                        <Link to="/signin">Sign In To View This Page</Link>
+                        <NavLink to="/signin">Sign In To View This Page</NavLink>
                     </h1>
                 </div>
             ) : (
@@ -138,14 +138,28 @@ export default function GamePage() {
                                 sx={
                                     {flexGrow: 2}
                             }>
-                                <Link to="/gamehistory">Your Games</Link>
+                                <NavLink style={{ textDecoration: 'none', color: 'inherit' }} to="/gamepage">Game Page</NavLink>
+                            
+                            </Typography>
+                            <Typography variant="body" component="div"
+                                sx={
+                                    {flexGrow: 2}
+                            }>
+                                <NavLink style={{ textDecoration: 'none', color: 'inherit' }} to="/gamehistory">Your Games</NavLink>
 
                             </Typography>
                             <Typography variant="body" component="div"
                                 sx={
                                     {flexGrow: 2}
                             }>
-                                <Link to="/account">Your Account</Link>
+                                <NavLink style={{ textDecoration: 'none', color: 'inherit' }} to="/leaderboard">Public LeaderBoard</NavLink>
+
+                            </Typography>
+                            <Typography variant="body" component="div"
+                                sx={
+                                    {flexGrow: 2}
+                            }>
+                                <NavLink style={{ textDecoration: 'none', color: 'inherit' }} to="/account">Your Account</NavLink>
                             </Typography>
                             <Button color="inherit"
                                 onClick={handleSignout}>

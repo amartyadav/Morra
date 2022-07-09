@@ -25,21 +25,6 @@ export default function GameHistory() {
         localStorage.getItem("token") === null ? setIsSignedIn(false) : setIsSignedIn(true)
     }, [])
 
-    // useEffect(() => {
-    // if (isSignedIn) {
-    //     const user_id = localStorage.getItem("user_id");
-    //     axios.get("http://127.0.0.1:3001/api/game/history/" + user_id, {
-    //         headers: {
-    //             'Authorization': 'Bearer ' + localStorage.getItem('token')
-    //         }
-    //     }).then(response => {
-    //         setResponseHistory(response.data);
-    //     }).catch(error => {
-    //         console.log(error);
-    //     })
-    // }
-    // }, [])
-
     const loadGameHistory = () => {
         const user_id = localStorage.getItem("user_id");
         axios.get("http://127.0.0.1:3001/api/game/history/" + user_id, {

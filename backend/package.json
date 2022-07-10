@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node server.js",
+    "start": "webpack --mode=development --config webpack.config.server.js && node ./dist/server.generated.js",
     "start:dev": "nodemon"
   },
   "dependencies": {

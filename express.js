@@ -8,6 +8,7 @@ import helmet from 'helmet'
 const app = express()
 
 
+
 var logger = require('morgan');
 
 // importing routes
@@ -29,7 +30,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, "frontend", "build")));
 
 app.use('/', indexRouter);
 app.use('/', usersRouter);
@@ -44,6 +45,10 @@ app.use((err, req, res, next) => {
     else if(err){
         res.status(400).json({"error" : err.name + ": " + err.message})
     }
+})
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, "frontend", "build", "index.html"));
 })
 
 

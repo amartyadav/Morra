@@ -10,8 +10,9 @@ const config = {
     entry: [path.join(CURRENT_WORKING_DIR, './server.js')],
     output: {
         filename: 'server.generated.js',
-        path: path.join(CURRENT_WORKING_DIR, './dist'),
-        publicPath: '/dist/',
+        // path: path.join(CURRENT_WORKING_DIR, './dist'),
+        path: CURRENT_WORKING_DIR,
+        // publicPath: '/dist/',
         libraryTarget: 'commonjs2'
     },
     externals: [nodeExternals()], // in order to ignore all modules in node_modules folder

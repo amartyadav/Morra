@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start:dev": "webpack --mode=development --config webpack.config.server.js && node ./dist/server.generated.js",
-    "start": "node ./dist/server.generated.js",
+    "start:dev": "webpack --mode=development --config webpack.config.server.js && node server.generated.js",
+    "start": "node server.generated.js",
     "heroku-postbuild": "cd frontend && npm install --only=dev && npm install && npm run build"
   },
   "dependencies": {

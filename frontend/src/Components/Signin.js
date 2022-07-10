@@ -19,7 +19,7 @@ export default function Signin() {
     const handleClick = (event) => {
         console.log("Signin: handleClick");
         event.preventDefault();
-        axios.post("http://localhost:3001/auth/signin", {
+        axios.post("/auth/signin", {
             email: email,
             password: password
         })

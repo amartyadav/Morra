@@ -24,7 +24,7 @@ export default function Account() {
         event.preventDefault();
         localStorage.clear();
         axios
-            .get("http://localhost:3001/auth/signout/")
+            .get("/auth/signout/")
             .then((response) => {
                 console.log(response);
                 navigate("/signin");
@@ -39,7 +39,7 @@ export default function Account() {
         event.preventDefault();
         axios
             .delete(
-                "http://localhost:3001/api/game/delete/" +
+                "/api/game/delete/" +
                 localStorage.getItem("user_id"),
                 {
                     headers: {
@@ -56,7 +56,7 @@ export default function Account() {
             });
         axios
             .delete(
-                "http://localhost:3001/api/users/" + localStorage.getItem("user_id"),
+                "/api/users/" + localStorage.getItem("user_id"),
                 {
                     headers: {
                         Authorization: "Bearer " + localStorage.getItem("token"),

@@ -29,7 +29,7 @@ export default function GameHistory() {
   const loadGameHistory = () => {
     const user_id = localStorage.getItem("user_id");
     axios
-      .get("http://127.0.0.1:3001/api/game/history/" + user_id, {
+      .get("/api/game/history/" + user_id, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
@@ -46,7 +46,7 @@ export default function GameHistory() {
     const user_id = localStorage.getItem("user_id");
     axios
       .delete(
-        "http://localhost:3001/api/game/delete/" +
+        "/api/game/delete/" +
         localStorage.getItem("user_id"),
         {
           headers: {
@@ -70,7 +70,7 @@ export default function GameHistory() {
     event.preventDefault();
     localStorage.clear();
     axios
-      .get("http://localhost:3001/auth/signout/")
+      .get("/auth/signout/")
       .then((response) => {
         console.log(response);
         navigate("/signin");

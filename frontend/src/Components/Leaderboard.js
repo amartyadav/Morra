@@ -28,7 +28,7 @@ export default function Leaderboard() {
 
   const loadLeaderboard = () => {
     axios
-      .get("http://127.0.0.1:3001/api/game/highscore", {
+      .get("/api/game/highscore", {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
@@ -48,7 +48,7 @@ export default function Leaderboard() {
     event.preventDefault();
     localStorage.clear();
     axios
-      .get("http://localhost:3001/auth/signout/")
+      .get("/auth/signout/")
       .then((response) => {
         console.log(response);
         navigate("/signin");

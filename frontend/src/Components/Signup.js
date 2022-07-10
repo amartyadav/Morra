@@ -22,7 +22,7 @@ export default function Signup() {
     };
     const handleClick = (event) => {
         console.log("Signup: handleClick");
-        axios.post('http://localhost:3001/api/users/', {
+        axios.post('/api/users/', {
             name: name,
             email: email,
             password: password

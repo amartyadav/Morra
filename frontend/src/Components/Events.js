@@ -53,7 +53,7 @@ export default function Events() {
 
     const loadEvents = () => {
         const user_id = localStorage.getItem("user_id");
-        axios.get("http://127.0.0.1:3001/api/events/")
+        axios.get("/api/events/")
             .then((response) => {
                 setResponseEvents(response.data);
             })
@@ -65,7 +65,7 @@ export default function Events() {
     const addEvent = (event) => {
         console.log("token: " + localStorage.getItem("token"));
         event.preventDefault();
-        axios.post("http://127.0.0.1:3001/api/events/create/" + localStorage.getItem("user_id") ,
+        axios.post("/api/events/create/" + localStorage.getItem("user_id") ,
         {
             eventName: eventName,
             description: eventDescription,
@@ -94,7 +94,7 @@ export default function Events() {
         event.preventDefault();
         localStorage.clear();
         axios
-            .get("http://localhost:3001/auth/signout/")
+            .get("/auth/signout/")
             .then((response) => {
                 console.log(response);
                 navigate("/signin");

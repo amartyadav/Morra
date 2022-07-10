@@ -29,7 +29,7 @@ export default function GamePage() {
     const handleClick = (event) => {
         console.log("GamePage: handleClick");
         event.preventDefault();
-        axios.get("http://localhost:3001/api/game/").then(response => {
+        axios.get("/api/game/").then(response => {
             console.log(response)
             setBotPlay(response.data.fingers)
             setBotGuess(response.data.guess)
@@ -57,7 +57,7 @@ export default function GamePage() {
         if (yourScore > prevHighScore) {
             localStorage.setItem('highScore', yourScore)
             console.log("new High score: " + yourScore)
-            axios.post("http://127.0.0.1:3001/api/game/highscore/update/" + localStorage.getItem("user_id"), {
+            axios.post("/api/game/highscore/update/" + localStorage.getItem("user_id"), {
                 highScore: yourScore
             }, {
                 headers: {
@@ -70,7 +70,7 @@ export default function GamePage() {
             })
         }
 
-        axios.post("http://localhost:3001/api/game/save/" + localStorage.getItem("user_id"), {
+        axios.post("/api/game/save/" + localStorage.getItem("user_id"), {
             userId: localStorage.getItem("user_id"),
             userName: localStorage.getItem("user_name"),
             botScore: botScore,
@@ -99,7 +99,7 @@ export default function GamePage() {
         console.log("GamePage: handleSignout");
         event.preventDefault();
         localStorage.clear()
-        axios.get("http://localhost:3001/auth/signout/").then(response => {
+        axios.get("/auth/signout/").then(response => {
             console.log(response);
             navigate('/signin');
         }).catch(error => {
@@ -110,7 +110,7 @@ export default function GamePage() {
     const handleUserDetails = (event) => {
         console.log("GamePage: handleUserDetails");
         event.preventDefault();
-        axios.get("http://localhost:3001/api/users/" + localStorage.getItem('user_id'), {
+        axios.get("/api/users/" + localStorage.getItem('user_id'), {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
             }

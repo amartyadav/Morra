@@ -1,23 +1,36 @@
 {
-  "name": "justice_for_ugly_animals",
-  "version": "1.0.0",
-  "description": "-- Backend, frontend and all that. Will be updated soon. I plan to get this done in 3 days. Let's go. <29/03/2020 23:36>",
-  "main": "index.js",
+  "name": "backend",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "dev": "concurrently \"cd backend && npm run start\" \"cd frontend && cd build && npm run start\""
+    "start": "webpack --mode=development --config webpack.config.server.js && node ./dist/server.generated.js",
+    "start:dev": "nodemon"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/RobertGordonUniversity/coursework-amartyadav.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/RobertGordonUniversity/coursework-amartyadav/issues"
-  },
-  "homepage": "https://github.com/RobertGordonUniversity/coursework-amartyadav#readme",
   "dependencies": {
-    "concurrently": "^7.0.0"
+    "body-parser": "^1.19.2",
+    "compression": "^1.7.4",
+    "connect-mongodb-session": "^3.1.1",
+    "cookie-parser": "~1.4.4",
+    "cors": "^2.8.5",
+    "debug": "~2.6.9",
+    "dotenv": "^16.0.0",
+    "express": "~4.16.1",
+    "express-jwt": "^6.1.1",
+    "express-session": "^1.17.2",
+    "helmet": "^5.0.2",
+    "jsonwebtoken": "^8.5.1",
+    "loadash": "^1.0.0",
+    "mongoose": "^6.2.9",
+    "morgan": "~1.9.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.17.6",
+    "@babel/core": "^7.17.8",
+    "@babel/preset-env": "^7.16.11",
+    "babel-loader": "^8.2.4",
+    "nodemon": "^2.0.15",
+    "webpack": "^5.72.0",
+    "webpack-cli": "^4.9.2",
+    "webpack-node-externals": "^3.0.0"
   }
 }
